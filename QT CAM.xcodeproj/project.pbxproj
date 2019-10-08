@@ -1,0 +1,599 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9F071053234C4FDB009E8565 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071052234C4FDB009E8565 /* AppDelegate.swift */; };
+		9F071055234C4FDB009E8565 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071054234C4FDB009E8565 /* ViewController.swift */; };
+		9F071058234C4FDB009E8565 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F071056234C4FDB009E8565 /* Main.storyboard */; };
+		9F07105A234C4FE0009E8565 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F071059234C4FE0009E8565 /* Assets.xcassets */; };
+		9F07105D234C4FE0009E8565 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F07105B234C4FE0009E8565 /* LaunchScreen.storyboard */; };
+		9F071068234C4FE0009E8565 /* QT_CAMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071067234C4FE0009E8565 /* QT_CAMTests.swift */; };
+		9F071073234C4FE0009E8565 /* QT_CAMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071072234C4FE0009E8565 /* QT_CAMUITests.swift */; };
+		9F470755234C7AC300E02684 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */; };
+		9F470757234C817300E02684 /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F470756234C817300E02684 /* CustomViews.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9F071064234C4FE0009E8565 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F071047234C4FDB009E8565 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F07104E234C4FDB009E8565;
+			remoteInfo = "QT CAM";
+		};
+		9F07106F234C4FE0009E8565 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F071047234C4FDB009E8565 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F07104E234C4FDB009E8565;
+			remoteInfo = "QT CAM";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9F07104F234C4FDB009E8565 /* QT CAM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QT CAM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F071052234C4FDB009E8565 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9F071054234C4FDB009E8565 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9F071057234C4FDB009E8565 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9F071059234C4FE0009E8565 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9F07105C234C4FE0009E8565 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9F07105E234C4FE0009E8565 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F071063234C4FE0009E8565 /* QT CAMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QT CAMTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F071067234C4FE0009E8565 /* QT_CAMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QT_CAMTests.swift; sourceTree = "<group>"; };
+		9F071069234C4FE0009E8565 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F07106E234C4FE0009E8565 /* QT CAMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QT CAMUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F071072234C4FE0009E8565 /* QT_CAMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QT_CAMUITests.swift; sourceTree = "<group>"; };
+		9F071074234C4FE0009E8565 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
+		9F470756234C817300E02684 /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9F07104C234C4FDB009E8565 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F071060234C4FE0009E8565 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F07106B234C4FE0009E8565 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9F071046234C4FDB009E8565 = {
+			isa = PBXGroup;
+			children = (
+				9F071051234C4FDB009E8565 /* QT CAM */,
+				9F071066234C4FE0009E8565 /* QT CAMTests */,
+				9F071071234C4FE0009E8565 /* QT CAMUITests */,
+				9F071050234C4FDB009E8565 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9F071050234C4FDB009E8565 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9F07104F234C4FDB009E8565 /* QT CAM.app */,
+				9F071063234C4FE0009E8565 /* QT CAMTests.xctest */,
+				9F07106E234C4FE0009E8565 /* QT CAMUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9F071051234C4FDB009E8565 /* QT CAM */ = {
+			isa = PBXGroup;
+			children = (
+				9F071052234C4FDB009E8565 /* AppDelegate.swift */,
+				9F071054234C4FDB009E8565 /* ViewController.swift */,
+				9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */,
+				9F071056234C4FDB009E8565 /* Main.storyboard */,
+				9F470756234C817300E02684 /* CustomViews.swift */,
+				9F071059234C4FE0009E8565 /* Assets.xcassets */,
+				9F07105B234C4FE0009E8565 /* LaunchScreen.storyboard */,
+				9F07105E234C4FE0009E8565 /* Info.plist */,
+			);
+			path = "QT CAM";
+			sourceTree = "<group>";
+		};
+		9F071066234C4FE0009E8565 /* QT CAMTests */ = {
+			isa = PBXGroup;
+			children = (
+				9F071067234C4FE0009E8565 /* QT_CAMTests.swift */,
+				9F071069234C4FE0009E8565 /* Info.plist */,
+			);
+			path = "QT CAMTests";
+			sourceTree = "<group>";
+		};
+		9F071071234C4FE0009E8565 /* QT CAMUITests */ = {
+			isa = PBXGroup;
+			children = (
+				9F071072234C4FE0009E8565 /* QT_CAMUITests.swift */,
+				9F071074234C4FE0009E8565 /* Info.plist */,
+			);
+			path = "QT CAMUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9F07104E234C4FDB009E8565 /* QT CAM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F071077234C4FE0009E8565 /* Build configuration list for PBXNativeTarget "QT CAM" */;
+			buildPhases = (
+				9F07104B234C4FDB009E8565 /* Sources */,
+				9F07104C234C4FDB009E8565 /* Frameworks */,
+				9F07104D234C4FDB009E8565 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "QT CAM";
+			productName = "QT CAM";
+			productReference = 9F07104F234C4FDB009E8565 /* QT CAM.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9F071062234C4FE0009E8565 /* QT CAMTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F07107A234C4FE0009E8565 /* Build configuration list for PBXNativeTarget "QT CAMTests" */;
+			buildPhases = (
+				9F07105F234C4FE0009E8565 /* Sources */,
+				9F071060234C4FE0009E8565 /* Frameworks */,
+				9F071061234C4FE0009E8565 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9F071065234C4FE0009E8565 /* PBXTargetDependency */,
+			);
+			name = "QT CAMTests";
+			productName = "QT CAMTests";
+			productReference = 9F071063234C4FE0009E8565 /* QT CAMTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9F07106D234C4FE0009E8565 /* QT CAMUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F07107D234C4FE0009E8565 /* Build configuration list for PBXNativeTarget "QT CAMUITests" */;
+			buildPhases = (
+				9F07106A234C4FE0009E8565 /* Sources */,
+				9F07106B234C4FE0009E8565 /* Frameworks */,
+				9F07106C234C4FE0009E8565 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9F071070234C4FE0009E8565 /* PBXTargetDependency */,
+			);
+			name = "QT CAMUITests";
+			productName = "QT CAMUITests";
+			productReference = 9F07106E234C4FE0009E8565 /* QT CAMUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9F071047234C4FDB009E8565 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = jacob;
+				TargetAttributes = {
+					9F07104E234C4FDB009E8565 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					9F071062234C4FE0009E8565 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 9F07104E234C4FDB009E8565;
+					};
+					9F07106D234C4FE0009E8565 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 9F07104E234C4FDB009E8565;
+					};
+				};
+			};
+			buildConfigurationList = 9F07104A234C4FDB009E8565 /* Build configuration list for PBXProject "QT CAM" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9F071046234C4FDB009E8565;
+			productRefGroup = 9F071050234C4FDB009E8565 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9F07104E234C4FDB009E8565 /* QT CAM */,
+				9F071062234C4FE0009E8565 /* QT CAMTests */,
+				9F07106D234C4FE0009E8565 /* QT CAMUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9F07104D234C4FDB009E8565 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F07105D234C4FE0009E8565 /* LaunchScreen.storyboard in Resources */,
+				9F07105A234C4FE0009E8565 /* Assets.xcassets in Resources */,
+				9F071058234C4FDB009E8565 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F071061234C4FE0009E8565 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F07106C234C4FE0009E8565 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9F07104B234C4FDB009E8565 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F470755234C7AC300E02684 /* ImagePreviewViewController.swift in Sources */,
+				9F470757234C817300E02684 /* CustomViews.swift in Sources */,
+				9F071055234C4FDB009E8565 /* ViewController.swift in Sources */,
+				9F071053234C4FDB009E8565 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F07105F234C4FE0009E8565 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F071068234C4FE0009E8565 /* QT_CAMTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9F07106A234C4FE0009E8565 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F071073234C4FE0009E8565 /* QT_CAMUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9F071065234C4FE0009E8565 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9F07104E234C4FDB009E8565 /* QT CAM */;
+			targetProxy = 9F071064234C4FE0009E8565 /* PBXContainerItemProxy */;
+		};
+		9F071070234C4FE0009E8565 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9F07104E234C4FDB009E8565 /* QT CAM */;
+			targetProxy = 9F07106F234C4FE0009E8565 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9F071056234C4FDB009E8565 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F071057234C4FDB009E8565 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9F07105B234C4FE0009E8565 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F07105C234C4FE0009E8565 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9F071075234C4FE0009E8565 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9F071076234C4FE0009E8565 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9F071078234C4FE0009E8565 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4P2FHR88X4;
+				INFOPLIST_FILE = "QT CAM/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "js.QT-CAM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9F071079234C4FE0009E8565 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4P2FHR88X4;
+				INFOPLIST_FILE = "QT CAM/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "js.QT-CAM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		9F07107B234C4FE0009E8565 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4P2FHR88X4;
+				INFOPLIST_FILE = "QT CAMTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "js.QT-CAMTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QT CAM.app/QT CAM";
+			};
+			name = Debug;
+		};
+		9F07107C234C4FE0009E8565 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4P2FHR88X4;
+				INFOPLIST_FILE = "QT CAMTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "js.QT-CAMTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QT CAM.app/QT CAM";
+			};
+			name = Release;
+		};
+		9F07107E234C4FE0009E8565 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4P2FHR88X4;
+				INFOPLIST_FILE = "QT CAMUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "js.QT-CAMUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "QT CAM";
+			};
+			name = Debug;
+		};
+		9F07107F234C4FE0009E8565 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4P2FHR88X4;
+				INFOPLIST_FILE = "QT CAMUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "js.QT-CAMUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "QT CAM";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9F07104A234C4FDB009E8565 /* Build configuration list for PBXProject "QT CAM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F071075234C4FE0009E8565 /* Debug */,
+				9F071076234C4FE0009E8565 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9F071077234C4FE0009E8565 /* Build configuration list for PBXNativeTarget "QT CAM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F071078234C4FE0009E8565 /* Debug */,
+				9F071079234C4FE0009E8565 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9F07107A234C4FE0009E8565 /* Build configuration list for PBXNativeTarget "QT CAMTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F07107B234C4FE0009E8565 /* Debug */,
+				9F07107C234C4FE0009E8565 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9F07107D234C4FE0009E8565 /* Build configuration list for PBXNativeTarget "QT CAMUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F07107E234C4FE0009E8565 /* Debug */,
+				9F07107F234C4FE0009E8565 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9F071047234C4FDB009E8565 /* Project object */;
+}
