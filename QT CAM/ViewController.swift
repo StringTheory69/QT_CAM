@@ -16,6 +16,9 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     var previewView: UIView!
     var takePhotoButton: UIButton!
     var backCamera: Bool = true
+    var flash: Bool = true
+    var savedImageView: UIImageView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
