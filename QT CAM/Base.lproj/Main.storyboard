@@ -24,16 +24,34 @@
                                 <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
                                     <navigationItem title=" " id="sGU-tQ-nZa">
-                                        <barButtonItem key="leftBarButtonItem" title="Flash" id="Dmo-aQ-LCC">
+                                        <barButtonItem key="leftBarButtonItem" title="Flash Off" id="Dmo-aQ-LCC">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="flashButtonAction:" destination="BYZ-38-t0r" id="GlR-VF-hGK"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfR-HD-c8j">
+                                <rect key="frame" x="321" y="617" width="30" height="30"/>
+                                <state key="normal" title="Flip"/>
+                                <connections>
+                                    <action selector="flipCameraView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="s43-5I-K2D"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gfR-HD-c8j" secondAttribute="bottom" constant="20" id="l3K-6A-2VG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gfR-HD-c8j" secondAttribute="trailing" constant="24" id="vVP-uI-G8N"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="cameraFlipButton" destination="gfR-HD-c8j" id="ZYA-Sv-jQk"/>
+                        <outlet property="flashButton" destination="Dmo-aQ-LCC" id="cA4-dH-8rm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

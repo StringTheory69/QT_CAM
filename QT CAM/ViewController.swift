@@ -16,9 +16,29 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     var previewView: UIView!
     var takePhotoButton: UIButton!
     var backCamera: Bool = true
-    var flash: Bool = true
+    var flash: Bool = false
     var savedImageView: UIImageView!
-    
+    var camera: AVCaptureDevice!
+    @IBOutlet weak var flashButton: UIBarButtonItem!
+    @IBAction func flashButtonAction(_ sender: Any) {
+        if !flash {
+            flashButton.title = "Flash On"
+            flash = true
+        } else {
+            flashButton.title = "Flash Off"
+            flash = false
+        }
+    }
+    @IBOutlet weak var cameraFlipButton: UIButton!
+    @IBAction func flipCameraView(_ sender: Any) {
+        if backCamera {
+            cameraFlipButton.title = "front"
+            backCamera = false
+        } else {
+            cameraFlipButton.title = "back"
+            backCamera = true
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +83,24 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     @objc func takePhoto() {
         
+        if camera.hasTorch {
+            do {
+                try camera.lockForConfiguration()
+            
+                if flash && backCamera {
+                    camera.torchMode = .on
+                } else {
+                    camera.torchMode = .off
+                }
+            
+                camera.unlockForConfiguration()
+            } catch {
+                print("Torch could not be used")
+            }
+        } else {
+            print("Torch is not available")
+        }
+        
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
@@ -70,33 +108,38 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Setup your camera here...
+        setupCamera()
+    }
+    
+    func setupCamera() {
+        
         captureSession = AVCaptureSession()
         captureSession.sessionPreset = .medium
         
-        guard let camera = AVCaptureDevice.default(for: AVMediaType.video)
-            else {
-                print("Unable to access back camera!")
-                return
+        if backCamera {
+            
+            guard let device = AVCaptureDevice.default(for: AVMediaType.video)
+                else {
+                    print("Unable to access back camera!")
+                    return
+            }
+            camera = device
+            
+        } else {
+            
+            guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front)
+                else {
+                    backCamera = true
+                    return setupCamera()
+            }
+            camera = device
         }
         
-
-//        guard let camera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front)
-//                else {
-//                    guard let camera = AVCaptureDevice.default(for: AVMediaType.video)
-//                        else {
-//                            print("Unable to access back camera!")
-//                            return
-//                    }
-//            }
-//
-//
-    
         
         do {
             let input = try AVCaptureDeviceInput(device: camera)
             
             stillImageOutput = AVCapturePhotoOutput()
-            
             
             if captureSession.canAddInput(input) && captureSession.canAddOutput(stillImageOutput) {
                 captureSession.addInput(input)
@@ -107,7 +150,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         catch let error  {
             print("Error Unable to initialize back camera:  \(error.localizedDescription)")
         }
-        
         
     }
     
@@ -160,7 +202,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         controller.image = newImage
         self.present(controller, animated: true, completion: nil)
     
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -172,17 +213,17 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
 
 
 extension UIImage {
-    func resizeWithPercent(percentage: CGFloat) -> UIImage? {
-        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: size.width * percentage, height: size.height * percentage)))
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = self
-        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
-        guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        imageView.layer.render(in: context)
-        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
-        UIGraphicsEndImageContext()
-        return result
-    }
+//    func resizeWithPercent(percentage: CGFloat) -> UIImage? {
+//        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: size.width * percentage, height: size.height * percentage)))
+//        imageView.contentMode = .scaleAspectFit
+//        imageView.image = self
+//        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+//        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+//        imageView.layer.render(in: context)
+//        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+//        UIGraphicsEndImageContext()
+//        return result
+//    }
     func resizeWithWidth(width: CGFloat) -> UIImage? {
         let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))))
         imageView.contentMode = .scaleAspectFit
