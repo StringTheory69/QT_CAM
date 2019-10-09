@@ -100,8 +100,8 @@ extension CameraViewController {
         // preview view
         
         previewView = UIView()
-        previewView.backgroundColor = .black
-//        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.2)
+//        previewView.backgroundColor = .black
+        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.2)
         previewView.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(previewView, belowSubview: cameraImageView)
         
@@ -322,32 +322,46 @@ extension CameraViewController {
         
         // woven grain
 //        var grainImage = #imageLiteral(resourceName: "brush-strokes-paint-stock-picture-1925873")
-        var grainImage = #imageLiteral(resourceName: "IMG_2044")
-
+        var grainImage = #imageLiteral(resourceName: "IMG_204")
+        
         grainImage = UIImage(cgImage: grainImage.cgImage!, scale: 1.0, orientation: .left)
 
         // captured image size
         let imageSize = capturedImage?.size
         
-        // begin blend
-        UIGraphicsBeginImageContextWithOptions(imageSize!, false, 0.0)
-
-        // grain image blend
-        grainImage.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .colorDodge, alpha: 1)
+//        if let img = grainImage, let img2 = capturedImage {
+        let rect = CGRect(x: 0, y: 0, width: imageSize!.width, height: imageSize!.height)
+            let renderer = UIGraphicsImageRenderer(size: imageSize!)
+            
+        var result = renderer.image { ctx in
+                // fill the background with white so that translucent colors get lighter
+//                UIColor.white.set()
+                ctx.fill(rect)
+                
+                grainImage.draw(in: rect, blendMode: .normal, alpha: 1)
+                capturedImage?.draw(in: rect, blendMode: .overlay, alpha: 1)
+            }
+//        }
         
-        // captured image blend
-        capturedImage!.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .multiply, alpha: 1)
+//        // begin blend
+//        UIGraphicsBeginImageContextWithOptions(imageSize!, false, 0.0)
+//
+//        // grain image blend
+//        grainImage.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .normal, alpha: 1)
+//
+//        // captured image blend
+//        capturedImage!.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .overlay, alpha: 1)
+//
+//        // end blend
+//        // processed image
+//        var processedImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
 
-        // end blend
-        // processed image
-        var processedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        processedImage = processedImage?.resizeWithWidth(width: 480)!
+        result = result.resizeWithWidth(width: 480)!
         
         //compression
         
-        let compressData = processedImage?.jpegData(compressionQuality:1) //max value is 1.0 and minimum is 0.0
+        let compressData = result.jpegData(compressionQuality:1) //max value is 1.0 and minimum is 0.0
         let compressedImage = UIImage(data: compressData!)
         compressedImage?.withSaturationAdjustment(byVal: 5)
         // initialize image save view
