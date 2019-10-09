@@ -17,18 +17,7 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" image="FullSizeRender-1" translatesAutoresizingMaskIntoConstraints="NO" id="ETg-wC-XJC">
-                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="ETg-wC-XJC" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="S9o-pZ-DRM"/>
-                            <constraint firstItem="ETg-wC-XJC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="et7-zD-Itz"/>
-                            <constraint firstItem="ETg-wC-XJC" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="hEw-gj-S1R"/>
-                            <constraint firstItem="ETg-wC-XJC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="y9X-x1-bt5"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -52,7 +41,4 @@
             <point key="canvasLocation" x="1198" y="129"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="FullSizeRender-1" width="4068" height="2289"/>
-    </resources>
 </document>

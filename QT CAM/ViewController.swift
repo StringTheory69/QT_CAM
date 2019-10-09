@@ -8,6 +8,9 @@
 
 import UIKit
 import AVFoundation
+import NotificationCenter
+import MediaPlayer
+
 class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // AV Capture
@@ -18,6 +21,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // UI
     var previewView: UIView!
+    var cameraImageView: UIImageView!
     var imageView: UIImageView!
     var takePhotoButton: UIButton!
     var savedImageView: UIImageView!
@@ -31,13 +35,30 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Setup views
+        let volumeView = MPVolumeView(frame: CGRect(x: -CGFloat.greatestFiniteMagnitude, y: 0.0, width: 0.0, height: 0.0))
+        self.view.addSubview(volumeView)
+        NotificationCenter.default.addObserver(self, selector: #selector(volumeChanged(notification:)), name: NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
         setupViews()
+    }
+    
+    
+    @objc func volumeChanged(notification: NSNotification) {
+        
+        if let userInfo = notification.userInfo {
+            if let volumeChangeType = userInfo["AVSystemController_AudioVolumeChangeReasonNotificationParameter"] as? String {
+                if volumeChangeType == "ExplicitVolumeChange" {
+                    // your code goes here
+                    takePhoto()
+                }
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Setup camera
-//        setupCamera()
+//        volumeControlSetup()
+        setupCamera()
     }
     
     override func viewDidLayoutSubviews() {
@@ -53,6 +74,42 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         self.captureSession.stopRunning()
     }
     
+//    func volumeControlSetup() {
+//
+//        AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions.new, context: nil)
+//        do { try AVAudioSession.sharedInstance().setActive(true) }
+//        catch { debugPrint("\(error)") }
+//
+//    }
+//
+//    func volumeControlCleanup() {
+//
+//        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
+//        do { try AVAudioSession.sharedInstance().setActive(false) }
+//        catch { debugPrint("\(error)") }
+//
+//    }
+//
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        guard let key = keyPath else { return }
+//        switch key {
+//        case "outputVolume":
+//            print("YEAH")
+//
+//            guard let dict = change, let temp = dict[NSKeyValueChangeKey.newKey] as? Float, temp != 0.5 else { return }
+//            print(temp)
+////            let systemSlider = MPVolumeView().subviews.first { (aView) -> Bool in
+////                return NSStringFromClass(aView.classForCoder) == "MPVolumeSlider" ? true : false
+////                } as? UISlider
+////            systemSlider?.setValue(0.5, animated: false)
+////            guard systemSlider != nil else { return }
+////            debugPrint("Either volume button tapped.")
+//        default:
+//            break
+//        }
+//    }
+
+    
 }
 
 // setup views
@@ -62,18 +119,35 @@ extension CameraViewController {
         
         view.backgroundColor = .black
         
+        cameraImageView = UIImageView()
+        cameraImageView.image = #imageLiteral(resourceName: "FullSizeRenderMask")
+        //        previewView.backgroundColor = .black
+//        cameraImageView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5)
+        cameraImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(cameraImageView)
+        
+        //        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        //        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        cameraImageView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        cameraImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        cameraImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        cameraImageView.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1.78).isActive = true
+        
+        // preview view
+        
         previewView = UIView()
-//        previewView.backgroundColor = .black
-        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5)
+        previewView.backgroundColor = .black
+//        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.2)
         previewView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(previewView)
+        view.insertSubview(previewView, belowSubview: cameraImageView)
         
 //        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 //        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        previewView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3).isActive = true
-        previewView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        previewView.heightAnchor.constraint(equalTo: cameraImageView.heightAnchor, multiplier: 0.39).isActive = true
+        previewView.leadingAnchor.constraint(equalTo: cameraImageView.leadingAnchor, constant: view.frame.height*1.78*0.32).isActive = true
         
-        previewView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        previewView.topAnchor.constraint(equalTo: cameraImageView.topAnchor, constant: view.frame.height*0.27).isActive = true
         previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3).isActive = true
         
         imageView = UIImageView()
@@ -260,7 +334,7 @@ extension CameraViewController {
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         
         videoPreviewLayer.videoGravity = .resizeAspect
-        videoPreviewLayer.connection?.videoOrientation = .landscapeRight
+        videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
         previewView.layer.addSublayer(videoPreviewLayer)
         
         DispatchQueue.global(qos: .userInitiated).async { //[weak self] in
