@@ -37,7 +37,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Setup camera
-        setupCamera()
+//        setupCamera()
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,10 +60,11 @@ extension CameraViewController {
     
     func setupViews() {
         
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .black
         
         previewView = UIView()
-        previewView.backgroundColor = .black
+//        previewView.backgroundColor = .black
+        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5)
         previewView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(previewView)
         
@@ -186,7 +187,7 @@ extension CameraViewController {
         if camera.hasTorch {
             do {
                 try camera.lockForConfiguration()
-                
+           
                 if flash && backCamera {
                     camera.torchMode = .on
                 } else {
@@ -283,7 +284,9 @@ extension CameraViewController {
         let capturedImage = UIImage(data: imageData)
         
         // woven grain
-        var grainImage = #imageLiteral(resourceName: "70716658-old-raw-canvas-texture-seamless-abstract-background")
+//        var grainImage = #imageLiteral(resourceName: "brush-strokes-paint-stock-picture-1925873")
+        var grainImage = #imageLiteral(resourceName: "IMG_2044")
+
         grainImage = UIImage(cgImage: grainImage.cgImage!, scale: 1.0, orientation: .left)
 
         // captured image size
@@ -293,7 +296,7 @@ extension CameraViewController {
         UIGraphicsBeginImageContextWithOptions(imageSize!, false, 0.0)
 
         // grain image blend
-        grainImage.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .softLight, alpha: 0.5)
+        grainImage.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .colorDodge, alpha: 1)
         
         // captured image blend
         capturedImage!.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .multiply, alpha: 1)
@@ -303,24 +306,39 @@ extension CameraViewController {
         var processedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
-        processedImage = processedImage?.resizeWithWidth(width: 960)!
+        processedImage = processedImage?.resizeWithWidth(width: 480)!
         
         //compression
         
         let compressData = processedImage?.jpegData(compressionQuality:1) //max value is 1.0 and minimum is 0.0
         let compressedImage = UIImage(data: compressData!)
-        
+        compressedImage?.withSaturationAdjustment(byVal: 5)
         // initialize image save view
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "previewVC") as! ImagePreviewViewController
         
         // pass image to controller
+        controller.backCamera = backCamera
         controller.image = compressedImage
         
         // present controller
         self.present(controller, animated: false, completion: nil)
     
+    }
+    
+}
+
+extension UIImage {
+    
+    func withSaturationAdjustment(byVal: CGFloat) -> UIImage {
+        guard let cgImage = self.cgImage else { return self }
+        guard let filter = CIFilter(name: "CIColorControls") else { return self }
+        filter.setValue(CIImage(cgImage: cgImage), forKey: kCIInputImageKey)
+        filter.setValue(byVal, forKey: kCIInputSaturationKey)
+        guard let result = filter.value(forKey: kCIOutputImageKey) as? CIImage else { return self }
+        guard let newCgImage = CIContext(options: nil).createCGImage(result, from: result.extent) else { return self }
+        return UIImage(cgImage: newCgImage, scale: UIScreen.main.scale, orientation: imageOrientation)
     }
     
 }

@@ -15,6 +15,8 @@ class ImagePreviewViewController: UIViewController {
     var saveButton: UIButton!
     var closeButton: UIButton!
     var image: UIImage!
+    var backCamera: Bool!
+    var flippedImage: UIImage!
     var topConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
@@ -24,8 +26,14 @@ class ImagePreviewViewController: UIViewController {
         view.backgroundColor = .darkGray
         
         previewView = UIImageView()
-        image = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .left)
-        previewView.image = image
+        
+        if backCamera {
+            flippedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .left)
+        } else {
+            flippedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .leftMirrored)
+        }
+
+        previewView.image = flippedImage
         previewView.contentMode = .scaleAspectFit
         previewView.backgroundColor = .black
         previewView.translatesAutoresizingMaskIntoConstraints = false

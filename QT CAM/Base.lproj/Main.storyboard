@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,9 +15,20 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CameraViewController" customModule="QT_CAM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" image="FullSizeRender-1" translatesAutoresizingMaskIntoConstraints="NO" id="ETg-wC-XJC">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ETg-wC-XJC" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="S9o-pZ-DRM"/>
+                            <constraint firstItem="ETg-wC-XJC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="et7-zD-Itz"/>
+                            <constraint firstItem="ETg-wC-XJC" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="hEw-gj-S1R"/>
+                            <constraint firstItem="ETg-wC-XJC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="y9X-x1-bt5"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -30,7 +41,7 @@
             <objects>
                 <viewController storyboardIdentifier="previewVC" id="DIW-ez-1pj" customClass="ImagePreviewViewController" customModule="QT_CAM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y7P-63-2cK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Omj-Ey-jU2"/>
@@ -41,4 +52,7 @@
             <point key="canvasLocation" x="1198" y="129"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="FullSizeRender-1" width="4068" height="2289"/>
+    </resources>
 </document>
