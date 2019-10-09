@@ -18,6 +18,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     // UI
     var previewView: UIView!
+    var imageView: UIImageView!
     var takePhotoButton: UIButton!
     var savedImageView: UIImageView!
     var flipButton: UIButton!
@@ -59,34 +60,47 @@ extension CameraViewController {
     
     func setupViews() {
         
-        view.backgroundColor = .black
+        view.backgroundColor = .darkGray
         
         previewView = UIView()
         previewView.backgroundColor = .black
         previewView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(previewView)
         
-        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        previewView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3).isActive = true
+        previewView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
         previewView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        previewView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 4/3).isActive = true
+        previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3).isActive = true
+        
+        imageView = UIImageView()
+        imageView.backgroundColor = .clear
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imageView)
+        
+        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 4/3).isActive = true
         
         // transparent view for formatting buttons
-        let bottomFormatter = UILayoutGuide()
-        self.view.addLayoutGuide(bottomFormatter)
+        let rightFormatter = UILayoutGuide()
+        self.view.addLayoutGuide(rightFormatter)
         
-        bottomFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        bottomFormatter.topAnchor.constraint(equalTo: previewView.bottomAnchor).isActive = true
-        bottomFormatter.leadingAnchor.constraint(equalTo:view.leadingAnchor).isActive = true
-        bottomFormatter.trailingAnchor.constraint(equalTo:view.trailingAnchor).isActive = true
+        rightFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        rightFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        rightFormatter.leadingAnchor.constraint(equalTo:previewView.trailingAnchor).isActive = true
+        rightFormatter.trailingAnchor.constraint(equalTo:view.trailingAnchor).isActive = true
         
-        let topFormatter = UILayoutGuide()
-        self.view.addLayoutGuide(topFormatter)
+        let leftFormatter = UILayoutGuide()
+        self.view.addLayoutGuide(leftFormatter)
         
-        topFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        topFormatter.bottomAnchor.constraint(equalTo: previewView.topAnchor).isActive = true
-        topFormatter.leadingAnchor.constraint(equalTo:view.leadingAnchor).isActive = true
-        topFormatter.trailingAnchor.constraint(equalTo:view.trailingAnchor).isActive = true
+        leftFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        leftFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        leftFormatter.leadingAnchor.constraint(equalTo:view.leadingAnchor).isActive = true
+        leftFormatter.trailingAnchor.constraint(equalTo:previewView.leadingAnchor).isActive = true
         
         takePhotoButton = UIButton()
         takePhotoButton.backgroundColor = .red
@@ -94,22 +108,10 @@ extension CameraViewController {
         takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
         view.addSubview(takePhotoButton)
         
-        takePhotoButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/12).isActive = true
-        takePhotoButton.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/12).isActive = true
-        takePhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        takePhotoButton.centerYAnchor.constraint(equalTo: bottomFormatter.centerYAnchor).isActive = true
-        
-        flipButton = UIButton()
-//        flipButton.setTitle("FLIP", for: .normal)
-        flipButton.setImage(#imageLiteral(resourceName: "noun_Flip Camera_390580"), for: .normal)
-        flipButton.setTitleColor(.white, for: .normal)
-        flipButton.translatesAutoresizingMaskIntoConstraints = false
-        flipButton.addTarget(self, action: #selector(flipCameraView), for: .touchUpInside)
-        view.addSubview(flipButton)
-        
-        flipButton.leadingAnchor.constraint(equalTo: takePhotoButton.trailingAnchor).isActive = true
-        flipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        flipButton.centerYAnchor.constraint(equalTo: bottomFormatter.centerYAnchor).isActive = true
+        takePhotoButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/7).isActive = true
+        takePhotoButton.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/7).isActive = true
+        takePhotoButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        takePhotoButton.centerXAnchor.constraint(equalTo: rightFormatter.centerXAnchor).isActive = true
         
         flashButton = UIButton()
 //        flashButton.setTitle("FLASH OFF", for: .normal)
@@ -119,9 +121,22 @@ extension CameraViewController {
         flashButton.addTarget(self, action: #selector(flashButtonAction), for: .touchUpInside)
         view.addSubview(flashButton)
         
-        flashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        flashButton.trailingAnchor.constraint(equalTo: takePhotoButton.leadingAnchor).isActive = true
-        flashButton.centerYAnchor.constraint(equalTo: bottomFormatter.centerYAnchor).isActive = true
+        flashButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        flashButton.trailingAnchor.constraint(equalTo: previewView.leadingAnchor).isActive = true
+        flashButton.centerYAnchor.constraint(equalTo: rightFormatter.centerYAnchor).isActive = true
+        
+        flipButton = UIButton()
+        //        flipButton.setTitle("FLIP", for: .normal)
+        flipButton.setImage(#imageLiteral(resourceName: "noun_Flip Camera_390580"), for: .normal)
+        flipButton.setTitleColor(.white, for: .normal)
+        flipButton.translatesAutoresizingMaskIntoConstraints = false
+        flipButton.addTarget(self, action: #selector(flipCameraView), for: .touchUpInside)
+        view.addSubview(flipButton)
+        
+        flipButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        flipButton.trailingAnchor.constraint(equalTo: previewView.leadingAnchor).isActive = true
+        flipButton.bottomAnchor.constraint(equalTo: flashButton.topAnchor, constant: -20).isActive = true
+        
     }
     
 }
@@ -244,7 +259,7 @@ extension CameraViewController {
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         
         videoPreviewLayer.videoGravity = .resizeAspect
-        videoPreviewLayer.connection?.videoOrientation = .portrait
+        videoPreviewLayer.connection?.videoOrientation = .landscapeRight
         previewView.layer.addSublayer(videoPreviewLayer)
         
         DispatchQueue.global(qos: .userInitiated).async { //[weak self] in
@@ -268,8 +283,9 @@ extension CameraViewController {
         let capturedImage = UIImage(data: imageData)
         
         // woven grain
-        let grainImage = #imageLiteral(resourceName: "70716658-old-raw-canvas-texture-seamless-abstract-background")
-        
+        var grainImage = #imageLiteral(resourceName: "70716658-old-raw-canvas-texture-seamless-abstract-background")
+        grainImage = UIImage(cgImage: grainImage.cgImage!, scale: 1.0, orientation: .left)
+
         // captured image size
         let imageSize = capturedImage?.size
         
@@ -303,7 +319,7 @@ extension CameraViewController {
         controller.image = compressedImage
         
         // present controller
-        self.present(controller, animated: true, completion: nil)
+        self.present(controller, animated: false, completion: nil)
     
     }
     

@@ -11,23 +11,54 @@ import UIKit
 class ImagePreviewViewController: UIViewController {
     
     var previewView: UIImageView!
+    var blackView: UIView!
     var saveButton: UIButton!
     var closeButton: UIButton!
     var image: UIImage!
+    var topConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .black
+        
+        view.backgroundColor = .darkGray
         
         previewView = UIImageView()
+        image = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .left)
         previewView.image = image
+        previewView.contentMode = .scaleAspectFit
+        previewView.backgroundColor = .black
         previewView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(previewView)
-        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        //        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        //        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        previewView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3).isActive = true
+        previewView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
         previewView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        previewView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 4/3).isActive = true
+        previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3).isActive = true
+        
+        blackView = UIView()
+        blackView.backgroundColor = .black
+        blackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(blackView)
+        blackView.leadingAnchor.constraint(equalTo: previewView.leadingAnchor).isActive = true
+        blackView.trailingAnchor.constraint(equalTo: previewView.trailingAnchor).isActive = true
+//        blackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+//        blackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        blackView.heightAnchor.constraint(equalTo: previewView.widthAnchor, multiplier: 4/3).isActive = true
+
+//        blackView.topAnchor.constraint(equalTo: previewView.topAnchor, constant: 0).isActive = true
+        blackView.bottomAnchor.constraint(equalTo: previewView.bottomAnchor).isActive = true
+        // Create the top constraint
+        topConstraint = blackView.topAnchor.constraint(equalTo: previewView.topAnchor, constant: 0)
+        
+        // Activate constaint(s)
+        NSLayoutConstraint.activate([
+            topConstraint,
+            ])
+        
         
         // transparent view for formatting takePhotoButton
         let bottomFormatter = UILayoutGuide()
@@ -68,6 +99,15 @@ class ImagePreviewViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        topConstraint.constant = self.previewView.frame.height
+        UIView.animate(withDuration: 4) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -103,7 +143,7 @@ class ImagePreviewViewController: UIViewController {
     }
     
     @objc func close() {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
 
 }
