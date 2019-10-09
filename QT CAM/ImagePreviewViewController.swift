@@ -11,6 +11,7 @@ import UIKit
 class ImagePreviewViewController: UIViewController {
     
     var previewView: UIImageView!
+    var cameraImageView: UIImageView!
     var blackView: UIView!
     var saveButton: UIButton!
     var closeButton: UIButton!
@@ -22,29 +23,41 @@ class ImagePreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        view.backgroundColor = .darkGray
-        
-        previewView = UIImageView()
+        view.backgroundColor = .black
         
         if backCamera {
-            flippedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .left)
+            flippedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
         } else {
-            flippedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .leftMirrored)
+            flippedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .rightMirrored)
         }
 
-        previewView.image = flippedImage
-        previewView.contentMode = .scaleAspectFit
-        previewView.backgroundColor = .black
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(previewView)
+        cameraImageView = UIImageView()
+        cameraImageView.image = #imageLiteral(resourceName: "FullSizeRenderMask")
+        //        previewView.backgroundColor = .black
+        //        cameraImageView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5)
+        cameraImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(cameraImageView)
         
         //        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         //        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        previewView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3).isActive = true
-        previewView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cameraImageView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        cameraImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        previewView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        cameraImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        cameraImageView.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1.78).isActive = true
+        
+        // preview view
+        
+        previewView = UIImageView()
+        previewView.image = flippedImage
+        previewView.backgroundColor = .black
+        //        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.2)
+        previewView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(previewView, belowSubview: cameraImageView)
+        previewView.heightAnchor.constraint(equalTo: cameraImageView.heightAnchor, multiplier: 0.39).isActive = true
+        previewView.leadingAnchor.constraint(equalTo: cameraImageView.leadingAnchor, constant: view.frame.height*1.78*0.32).isActive = true
+        
+        previewView.topAnchor.constraint(equalTo: cameraImageView.topAnchor, constant: view.frame.height*0.27).isActive = true
         previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3).isActive = true
         
         blackView = UIView()

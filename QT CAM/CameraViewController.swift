@@ -57,15 +57,14 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Setup camera
-//        volumeControlSetup()
         setupCamera()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // round takePhotoButton edges
-        takePhotoButton.layer.masksToBounds = true
-        takePhotoButton.layer.cornerRadius = takePhotoButton.frame.height/2
+//        takePhotoButton.layer.masksToBounds = true
+//        takePhotoButton.layer.cornerRadius = takePhotoButton.frame.height/2
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,42 +72,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         // cleanup
         self.captureSession.stopRunning()
     }
-    
-//    func volumeControlSetup() {
-//
-//        AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions.new, context: nil)
-//        do { try AVAudioSession.sharedInstance().setActive(true) }
-//        catch { debugPrint("\(error)") }
-//
-//    }
-//
-//    func volumeControlCleanup() {
-//
-//        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
-//        do { try AVAudioSession.sharedInstance().setActive(false) }
-//        catch { debugPrint("\(error)") }
-//
-//    }
-//
-//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-//        guard let key = keyPath else { return }
-//        switch key {
-//        case "outputVolume":
-//            print("YEAH")
-//
-//            guard let dict = change, let temp = dict[NSKeyValueChangeKey.newKey] as? Float, temp != 0.5 else { return }
-//            print(temp)
-////            let systemSlider = MPVolumeView().subviews.first { (aView) -> Bool in
-////                return NSStringFromClass(aView.classForCoder) == "MPVolumeSlider" ? true : false
-////                } as? UISlider
-////            systemSlider?.setValue(0.5, animated: false)
-////            guard systemSlider != nil else { return }
-////            debugPrint("Either volume button tapped.")
-//        default:
-//            break
-//        }
-//    }
-
     
 }
 
@@ -175,18 +138,18 @@ extension CameraViewController {
         leftFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         leftFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         leftFormatter.leadingAnchor.constraint(equalTo:view.leadingAnchor).isActive = true
-        leftFormatter.trailingAnchor.constraint(equalTo:previewView.leadingAnchor).isActive = true
+        leftFormatter.trailingAnchor.constraint(equalTo:cameraImageView.leadingAnchor).isActive = true
         
-        takePhotoButton = UIButton()
-        takePhotoButton.backgroundColor = .red
-        takePhotoButton.translatesAutoresizingMaskIntoConstraints = false
-        takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
-        view.addSubview(takePhotoButton)
-        
-        takePhotoButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/7).isActive = true
-        takePhotoButton.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/7).isActive = true
-        takePhotoButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        takePhotoButton.centerXAnchor.constraint(equalTo: rightFormatter.centerXAnchor).isActive = true
+//        takePhotoButton = UIButton()
+//        takePhotoButton.backgroundColor = .red
+//        takePhotoButton.translatesAutoresizingMaskIntoConstraints = false
+//        takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
+//        view.addSubview(takePhotoButton)
+//
+//        takePhotoButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/7).isActive = true
+//        takePhotoButton.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/7).isActive = true
+//        takePhotoButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+//        takePhotoButton.centerXAnchor.constraint(equalTo: rightFormatter.centerXAnchor).isActive = true
         
         flashButton = UIButton()
 //        flashButton.setTitle("FLASH OFF", for: .normal)
@@ -196,8 +159,8 @@ extension CameraViewController {
         flashButton.addTarget(self, action: #selector(flashButtonAction), for: .touchUpInside)
         view.addSubview(flashButton)
         
-        flashButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        flashButton.trailingAnchor.constraint(equalTo: previewView.leadingAnchor).isActive = true
+        flashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        flashButton.trailingAnchor.constraint(equalTo: cameraImageView.leadingAnchor).isActive = true
         flashButton.centerYAnchor.constraint(equalTo: rightFormatter.centerYAnchor).isActive = true
         
         flipButton = UIButton()
@@ -208,8 +171,8 @@ extension CameraViewController {
         flipButton.addTarget(self, action: #selector(flipCameraView), for: .touchUpInside)
         view.addSubview(flipButton)
         
-        flipButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        flipButton.trailingAnchor.constraint(equalTo: previewView.leadingAnchor).isActive = true
+        flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        flipButton.trailingAnchor.constraint(equalTo: cameraImageView.leadingAnchor).isActive = true
         flipButton.bottomAnchor.constraint(equalTo: flashButton.topAnchor, constant: -20).isActive = true
         
     }
