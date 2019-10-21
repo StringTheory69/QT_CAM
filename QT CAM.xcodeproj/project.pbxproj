@@ -8,13 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		9F071053234C4FDB009E8565 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071052234C4FDB009E8565 /* AppDelegate.swift */; };
-		9F071055234C4FDB009E8565 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071054234C4FDB009E8565 /* CameraViewController.swift */; };
+		9F071055234C4FDB009E8565 /* RecController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071054234C4FDB009E8565 /* RecController.swift */; };
 		9F071058234C4FDB009E8565 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F071056234C4FDB009E8565 /* Main.storyboard */; };
 		9F07105A234C4FE0009E8565 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F071059234C4FE0009E8565 /* Assets.xcassets */; };
 		9F07105D234C4FE0009E8565 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F07105B234C4FE0009E8565 /* LaunchScreen.storyboard */; };
 		9F071068234C4FE0009E8565 /* QT_CAMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071067234C4FE0009E8565 /* QT_CAMTests.swift */; };
 		9F071073234C4FE0009E8565 /* QT_CAMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071072234C4FE0009E8565 /* QT_CAMUITests.swift */; };
 		9F0A027B234D405300AC0950 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0A027A234D405300AC0950 /* Extensions.swift */; };
+		9F15F2E92353EED600F3870E /* PersistingImage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F15F2E72353EED600F3870E /* PersistingImage.xcdatamodeld */; };
+		9F15F2EB2353F22D00F3870E /* PersistentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F15F2EA2353F22D00F3870E /* PersistentStorage.swift */; };
+		9F15F2ED2353FAA100F3870E /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F15F2EC2353FAA100F3870E /* ContainerViewController.swift */; };
 		9F470755234C7AC300E02684 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */; };
 		9F470757234C817300E02684 /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F470756234C817300E02684 /* CustomViews.swift */; };
 /* End PBXBuildFile section */
@@ -39,7 +42,7 @@
 /* Begin PBXFileReference section */
 		9F07104F234C4FDB009E8565 /* QT CAM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QT CAM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F071052234C4FDB009E8565 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9F071054234C4FDB009E8565 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		9F071054234C4FDB009E8565 /* RecController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecController.swift; sourceTree = "<group>"; };
 		9F071057234C4FDB009E8565 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9F071059234C4FE0009E8565 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F07105C234C4FE0009E8565 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +54,9 @@
 		9F071072234C4FE0009E8565 /* QT_CAMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QT_CAMUITests.swift; sourceTree = "<group>"; };
 		9F071074234C4FE0009E8565 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F0A027A234D405300AC0950 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9F15F2E82353EED600F3870E /* PersistingImage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PersistingImage.xcdatamodel; sourceTree = "<group>"; };
+		9F15F2EA2353F22D00F3870E /* PersistentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorage.swift; sourceTree = "<group>"; };
+		9F15F2EC2353FAA100F3870E /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 		9F470756234C817300E02684 /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,11 +110,14 @@
 			isa = PBXGroup;
 			children = (
 				9F071052234C4FDB009E8565 /* AppDelegate.swift */,
-				9F071054234C4FDB009E8565 /* CameraViewController.swift */,
+				9F15F2EC2353FAA100F3870E /* ContainerViewController.swift */,
+				9F071054234C4FDB009E8565 /* RecController.swift */,
 				9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */,
 				9F0A027A234D405300AC0950 /* Extensions.swift */,
 				9F071056234C4FDB009E8565 /* Main.storyboard */,
 				9F470756234C817300E02684 /* CustomViews.swift */,
+				9F15F2EA2353F22D00F3870E /* PersistentStorage.swift */,
+				9F15F2E72353EED600F3870E /* PersistingImage.xcdatamodeld */,
 				9F071059234C4FE0009E8565 /* Assets.xcassets */,
 				9F07105B234C4FE0009E8565 /* LaunchScreen.storyboard */,
 				9F07105E234C4FE0009E8565 /* Info.plist */,
@@ -266,10 +275,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F0A027B234D405300AC0950 /* Extensions.swift in Sources */,
+				9F15F2ED2353FAA100F3870E /* ContainerViewController.swift in Sources */,
+				9F15F2E92353EED600F3870E /* PersistingImage.xcdatamodeld in Sources */,
 				9F470755234C7AC300E02684 /* ImagePreviewViewController.swift in Sources */,
 				9F470757234C817300E02684 /* CustomViews.swift in Sources */,
-				9F071055234C4FDB009E8565 /* CameraViewController.swift in Sources */,
+				9F071055234C4FDB009E8565 /* RecController.swift in Sources */,
 				9F071053234C4FDB009E8565 /* AppDelegate.swift in Sources */,
+				9F15F2EB2353F22D00F3870E /* PersistentStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +610,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9F15F2E72353EED600F3870E /* PersistingImage.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9F15F2E82353EED600F3870E /* PersistingImage.xcdatamodel */,
+			);
+			currentVersion = 9F15F2E82353EED600F3870E /* PersistingImage.xcdatamodel */;
+			path = PersistingImage.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9F071047234C4FDB009E8565 /* Project object */;
 }

@@ -8,10 +8,9 @@
 
 import UIKit
 import AVFoundation
-import NotificationCenter
 import MediaPlayer
 
-class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
+class RecController: NSObject, AVCapturePhotoCaptureDelegate {
     
     // AV Capture
     var captureSession: AVCaptureSession!
@@ -32,113 +31,100 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     var backCamera: Bool = true
     var flash: Bool = false
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Setup views
-        let volumeView = MPVolumeView(frame: CGRect(x: -CGFloat.greatestFiniteMagnitude, y: 0.0, width: 0.0, height: 0.0))
-        self.view.addSubview(volumeView)
-        NotificationCenter.default.addObserver(self, selector: #selector(volumeChanged(notification:)), name: NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
-        setupViews()
-    }
+    var container: ContainerViewController!
     
+    var time: Int = 0
     
-    @objc func volumeChanged(notification: NSNotification) {
-        
-        if let userInfo = notification.userInfo {
-            if let volumeChangeType = userInfo["AVSystemController_AudioVolumeChangeReasonNotificationParameter"] as? String {
-                if volumeChangeType == "ExplicitVolumeChange" {
-                    // your code goes here
-                    takePhoto()
-                }
-            }
-        }
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        container = tabBarController as? TabBarController
+//        // Setup views
+//        setupViews()
+//    }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        // Setup camera
-        setupCamera()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        // Setup camera
+//        setupCamera()
+//    }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // round takePhotoButton edges
-//        takePhotoButton.layer.masksToBounds = true
-//        takePhotoButton.layer.cornerRadius = takePhotoButton.frame.height/2
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        // cleanup
+//        self.captureSession.stopRunning()
+//    }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // cleanup
+    func cleanup() {
         self.captureSession.stopRunning()
+        container.previewView.layer.sublayers = nil
     }
     
 }
 
 // setup views
-extension CameraViewController {
+//extension CameraViewController {
+
+//    func setupViews() {
     
-    func setupViews() {
+//        view.backgroundColor = .black
+    
+//        cameraImageView = UIImageView()
+//        cameraImageView.image = #imageLiteral(resourceName: "FullSizeRenderMask")
+//        //        previewView.backgroundColor = .black
+////        cameraImageView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5)
+//        cameraImageView.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(cameraImageView)
+//
+//        //        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//        //        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//        cameraImageView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+//        cameraImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//
+//        cameraImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+//        cameraImageView.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1.78).isActive = true
+//
+//        // preview view
+//
+//        previewView = UIView()
+////        previewView.backgroundColor = .black
+////        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.2)
+//        previewView.translatesAutoresizingMaskIntoConstraints = false
+////        view.insertSubview(previewView, belowSubview: cameraImageView)
+//        view.addSubview(previewView)
+////        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+////        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//        previewView.heightAnchor.constraint(equalTo: cameraImageView.heightAnchor, multiplier: 0.39).isActive = true
+//        previewView.leadingAnchor.constraint(equalTo: cameraImageView.leadingAnchor, constant: view.frame.height*1.78*0.32).isActive = true
+//
+//        previewView.topAnchor.constraint(equalTo: cameraImageView.topAnchor, constant: view.frame.height*0.27).isActive = true
+//        previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3).isActive = true
         
-        view.backgroundColor = .black
-        
-        cameraImageView = UIImageView()
-        cameraImageView.image = #imageLiteral(resourceName: "FullSizeRenderMask")
-        //        previewView.backgroundColor = .black
-//        cameraImageView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5)
-        cameraImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(cameraImageView)
-        
-        //        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        //        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        cameraImageView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        cameraImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        cameraImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        cameraImageView.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1.78).isActive = true
-        
-        // preview view
-        
-        previewView = UIView()
-//        previewView.backgroundColor = .black
-        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.2)
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(previewView, belowSubview: cameraImageView)
-        
-//        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        previewView.heightAnchor.constraint(equalTo: cameraImageView.heightAnchor, multiplier: 0.39).isActive = true
-        previewView.leadingAnchor.constraint(equalTo: cameraImageView.leadingAnchor, constant: view.frame.height*1.78*0.32).isActive = true
-        
-        previewView.topAnchor.constraint(equalTo: cameraImageView.topAnchor, constant: view.frame.height*0.27).isActive = true
-        previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3).isActive = true
-        
-        imageView = UIImageView()
-        imageView.backgroundColor = .clear
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(imageView)
-        
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 4/3).isActive = true
-        
-        // transparent view for formatting buttons
-        let rightFormatter = UILayoutGuide()
-        self.view.addLayoutGuide(rightFormatter)
-        
-        rightFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        rightFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        rightFormatter.leadingAnchor.constraint(equalTo:previewView.trailingAnchor).isActive = true
-        rightFormatter.trailingAnchor.constraint(equalTo:view.trailingAnchor).isActive = true
-        
-        let leftFormatter = UILayoutGuide()
-        self.view.addLayoutGuide(leftFormatter)
-        
-        leftFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        leftFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        leftFormatter.leadingAnchor.constraint(equalTo:view.leadingAnchor).isActive = true
-        leftFormatter.trailingAnchor.constraint(equalTo:cameraImageView.leadingAnchor).isActive = true
+//        imageView = UIImageView()
+//        imageView.backgroundColor = .clear
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(imageView)
+//
+//        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+//        imageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 4/3).isActive = true
+//
+//        // transparent view for formatting buttons
+//        let rightFormatter = UILayoutGuide()
+//        self.view.addLayoutGuide(rightFormatter)
+//
+//        rightFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+//        rightFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//        rightFormatter.leadingAnchor.constraint(equalTo:previewView.trailingAnchor).isActive = true
+//        rightFormatter.trailingAnchor.constraint(equalTo:view.trailingAnchor).isActive = true
+//
+//        let leftFormatter = UILayoutGuide()
+//        self.view.addLayoutGuide(leftFormatter)
+//
+//        leftFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//        leftFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+//        leftFormatter.leadingAnchor.constraint(equalTo:view.leadingAnchor).isActive = true
+//        leftFormatter.trailingAnchor.constraint(equalTo:cameraImageView.leadingAnchor).isActive = true
         
 //        takePhotoButton = UIButton()
 //        takePhotoButton.backgroundColor = .red
@@ -151,37 +137,37 @@ extension CameraViewController {
 //        takePhotoButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 //        takePhotoButton.centerXAnchor.constraint(equalTo: rightFormatter.centerXAnchor).isActive = true
         
-        flashButton = UIButton()
-//        flashButton.setTitle("FLASH OFF", for: .normal)
-        flashButton.setImage(#imageLiteral(resourceName: "noun_flash off_552195"), for: .normal)
-        flashButton.setTitleColor(.white, for: .normal)
-        flashButton.translatesAutoresizingMaskIntoConstraints = false
-        flashButton.addTarget(self, action: #selector(flashButtonAction), for: .touchUpInside)
-        view.addSubview(flashButton)
-        
-        flashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        flashButton.trailingAnchor.constraint(equalTo: cameraImageView.leadingAnchor).isActive = true
-        flashButton.centerYAnchor.constraint(equalTo: rightFormatter.centerYAnchor).isActive = true
-        
-        flipButton = UIButton()
-        //        flipButton.setTitle("FLIP", for: .normal)
-        flipButton.setImage(#imageLiteral(resourceName: "noun_Flip Camera_390580"), for: .normal)
-        flipButton.setTitleColor(.white, for: .normal)
-        flipButton.translatesAutoresizingMaskIntoConstraints = false
-        flipButton.addTarget(self, action: #selector(flipCameraView), for: .touchUpInside)
-        view.addSubview(flipButton)
-        
-        flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        flipButton.trailingAnchor.constraint(equalTo: cameraImageView.leadingAnchor).isActive = true
-        flipButton.bottomAnchor.constraint(equalTo: flashButton.topAnchor, constant: -20).isActive = true
-        
-    }
-    
-}
+//        flashButton = UIButton()
+////        flashButton.setTitle("FLASH OFF", for: .normal)
+//        flashButton.setImage(#imageLiteral(resourceName: "noun_flash off_552195"), for: .normal)
+//        flashButton.setTitleColor(.white, for: .normal)
+//        flashButton.translatesAutoresizingMaskIntoConstraints = false
+//        flashButton.addTarget(self, action: #selector(flashButtonAction), for: .touchUpInside)
+//        view.addSubview(flashButton)
+//
+//        flashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//        flashButton.trailingAnchor.constraint(equalTo: cameraImageView.leadingAnchor).isActive = true
+//        flashButton.centerYAnchor.constraint(equalTo: rightFormatter.centerYAnchor).isActive = true
+//
+//        flipButton = UIButton()
+//        //        flipButton.setTitle("FLIP", for: .normal)
+//        flipButton.setImage(#imageLiteral(resourceName: "noun_Flip Camera_390580"), for: .normal)
+//        flipButton.setTitleColor(.white, for: .normal)
+//        flipButton.translatesAutoresizingMaskIntoConstraints = false
+//        flipButton.addTarget(self, action: #selector(flipCameraView), for: .touchUpInside)
+//        view.addSubview(flipButton)
+//
+//        flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//        flipButton.trailingAnchor.constraint(equalTo: cameraImageView.leadingAnchor).isActive = true
+//        flipButton.bottomAnchor.constraint(equalTo: flashButton.topAnchor, constant: -20).isActive = true
+//
+//    }
+//
+//}
 
 // UX functions
 
-extension CameraViewController {
+extension RecController {
     
     // toggle flash
     @objc func flashButtonAction() {
@@ -215,6 +201,27 @@ extension CameraViewController {
         // capture photo
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         stillImageOutput.capturePhoto(with: settings, delegate: self)
+        container.rightLabel.text = (container.savedImages.count + 1).description
+    }
+    
+    @objc func takePhotoWithTimer() {
+    
+        if 10 - time != 0 {
+            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(takePhotoWithTimer), userInfo: nil, repeats: false)
+            print("time", time)
+            container.rightLabel.text = (10 - time).description
+            time += 1
+            return
+        }
+        
+        
+        // deal with flash
+        handleFlash()
+        
+        // capture photo
+        let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        stillImageOutput.capturePhoto(with: settings, delegate: self)
+        container.rightLabel.text = (container.savedImages.count + 1).description
         
     }
     
@@ -243,7 +250,7 @@ extension CameraViewController {
 
 // camera setup
     
-extension CameraViewController {
+extension RecController {
     
     func setupCamera() {
         
@@ -298,15 +305,17 @@ extension CameraViewController {
         
         videoPreviewLayer.videoGravity = .resizeAspect
         videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
-        previewView.layer.addSublayer(videoPreviewLayer)
+        container.previewView.layer.addSublayer(videoPreviewLayer)
         
         DispatchQueue.global(qos: .userInitiated).async { //[weak self] in
+            
             self.captureSession.startRunning()
             
         }
         
         DispatchQueue.main.async {
-            self.videoPreviewLayer.frame = self.previewView.bounds
+            
+            self.videoPreviewLayer.frame = self.container.previewView.bounds
         }
         
     }
@@ -335,10 +344,10 @@ extension CameraViewController {
             
         var result = renderer.image { ctx in
                 // fill the background with white so that translucent colors get lighter
-//                UIColor.white.set()
+                UIColor.init(white: 0.6, alpha: 1).set()
                 ctx.fill(rect)
                 
-                grainImage.draw(in: rect, blendMode: .normal, alpha: 1)
+                grainImage.draw(in: rect, blendMode: .normal, alpha: 0.4)
                 capturedImage?.draw(in: rect, blendMode: .overlay, alpha: 1)
             }
 //        }
@@ -364,17 +373,21 @@ extension CameraViewController {
         let compressData = result.jpegData(compressionQuality:1) //max value is 1.0 and minimum is 0.0
         let compressedImage = UIImage(data: compressData!)
         compressedImage?.withSaturationAdjustment(byVal: 5)
+        
+        // save image
+        guard let image = compressedImage as? UIImage else {return print("image not UIImage")}
+        container.persistentStorage.saveData(image)
         // initialize image save view
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "previewVC") as! ImagePreviewViewController
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let controller = storyboard.instantiateViewController(withIdentifier: "previewVC") as! ImagePreviewViewController
         
         // pass image to controller
-        controller.backCamera = backCamera
-        controller.image = compressedImage
+//        controller.backCamera = backCamera
+//        controller.image = compressedImage
         
         // present controller
-        self.present(controller, animated: false, completion: nil)
+//        self.present(controller, animated: false, completion: nil)
     
     }
     
