@@ -33,26 +33,9 @@ class RecController: NSObject, AVCapturePhotoCaptureDelegate {
     
     var container: ContainerViewController!
     
+    var timer: Timer!
+    var timerIsActive = false
     var time: Int = 0
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        container = tabBarController as? TabBarController
-//        // Setup views
-//        setupViews()
-//    }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        // Setup camera
-//        setupCamera()
-//    }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        // cleanup
-//        self.captureSession.stopRunning()
-//    }
     
     func cleanup() {
         self.captureSession.stopRunning()
@@ -60,112 +43,6 @@ class RecController: NSObject, AVCapturePhotoCaptureDelegate {
     }
     
 }
-
-// setup views
-//extension CameraViewController {
-
-//    func setupViews() {
-    
-//        view.backgroundColor = .black
-    
-//        cameraImageView = UIImageView()
-//        cameraImageView.image = #imageLiteral(resourceName: "FullSizeRenderMask")
-//        //        previewView.backgroundColor = .black
-////        cameraImageView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.5)
-//        cameraImageView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(cameraImageView)
-//
-//        //        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        //        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        cameraImageView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-//        cameraImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//
-//        cameraImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-//        cameraImageView.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1.78).isActive = true
-//
-//        // preview view
-//
-//        previewView = UIView()
-////        previewView.backgroundColor = .black
-////        previewView.backgroundColor = UIColor.init(red: 1, green: 0, blue: 0, alpha: 0.2)
-//        previewView.translatesAutoresizingMaskIntoConstraints = false
-////        view.insertSubview(previewView, belowSubview: cameraImageView)
-//        view.addSubview(previewView)
-////        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-////        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        previewView.heightAnchor.constraint(equalTo: cameraImageView.heightAnchor, multiplier: 0.39).isActive = true
-//        previewView.leadingAnchor.constraint(equalTo: cameraImageView.leadingAnchor, constant: view.frame.height*1.78*0.32).isActive = true
-//
-//        previewView.topAnchor.constraint(equalTo: cameraImageView.topAnchor, constant: view.frame.height*0.27).isActive = true
-//        previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3).isActive = true
-        
-//        imageView = UIImageView()
-//        imageView.backgroundColor = .clear
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(imageView)
-//
-//        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-//        imageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 4/3).isActive = true
-//
-//        // transparent view for formatting buttons
-//        let rightFormatter = UILayoutGuide()
-//        self.view.addLayoutGuide(rightFormatter)
-//
-//        rightFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-//        rightFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-//        rightFormatter.leadingAnchor.constraint(equalTo:previewView.trailingAnchor).isActive = true
-//        rightFormatter.trailingAnchor.constraint(equalTo:view.trailingAnchor).isActive = true
-//
-//        let leftFormatter = UILayoutGuide()
-//        self.view.addLayoutGuide(leftFormatter)
-//
-//        leftFormatter.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-//        leftFormatter.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-//        leftFormatter.leadingAnchor.constraint(equalTo:view.leadingAnchor).isActive = true
-//        leftFormatter.trailingAnchor.constraint(equalTo:cameraImageView.leadingAnchor).isActive = true
-        
-//        takePhotoButton = UIButton()
-//        takePhotoButton.backgroundColor = .red
-//        takePhotoButton.translatesAutoresizingMaskIntoConstraints = false
-//        takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
-//        view.addSubview(takePhotoButton)
-//
-//        takePhotoButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/7).isActive = true
-//        takePhotoButton.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/7).isActive = true
-//        takePhotoButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-//        takePhotoButton.centerXAnchor.constraint(equalTo: rightFormatter.centerXAnchor).isActive = true
-        
-//        flashButton = UIButton()
-////        flashButton.setTitle("FLASH OFF", for: .normal)
-//        flashButton.setImage(#imageLiteral(resourceName: "noun_flash off_552195"), for: .normal)
-//        flashButton.setTitleColor(.white, for: .normal)
-//        flashButton.translatesAutoresizingMaskIntoConstraints = false
-//        flashButton.addTarget(self, action: #selector(flashButtonAction), for: .touchUpInside)
-//        view.addSubview(flashButton)
-//
-//        flashButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        flashButton.trailingAnchor.constraint(equalTo: cameraImageView.leadingAnchor).isActive = true
-//        flashButton.centerYAnchor.constraint(equalTo: rightFormatter.centerYAnchor).isActive = true
-//
-//        flipButton = UIButton()
-//        //        flipButton.setTitle("FLIP", for: .normal)
-//        flipButton.setImage(#imageLiteral(resourceName: "noun_Flip Camera_390580"), for: .normal)
-//        flipButton.setTitleColor(.white, for: .normal)
-//        flipButton.translatesAutoresizingMaskIntoConstraints = false
-//        flipButton.addTarget(self, action: #selector(flipCameraView), for: .touchUpInside)
-//        view.addSubview(flipButton)
-//
-//        flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        flipButton.trailingAnchor.constraint(equalTo: cameraImageView.leadingAnchor).isActive = true
-//        flipButton.bottomAnchor.constraint(equalTo: flashButton.topAnchor, constant: -20).isActive = true
-//
-//    }
-//
-//}
-
-// UX functions
 
 extension RecController {
     
@@ -204,24 +81,26 @@ extension RecController {
         container.rightLabel.text = (container.savedImages.count + 1).description
     }
     
-    @objc func takePhotoWithTimer() {
+    func takePhotoWithTimer() {
+        timerIsActive = true
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        
+    }
     
-        if 10 - time != 0 {
-            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(takePhotoWithTimer), userInfo: nil, repeats: false)
-            print("time", time)
-            container.rightLabel.text = (10 - time).description
-            time += 1
-            return
-        }
+    @objc func timerAction() {
         
+        print("time", time)
+        container.rightLabel.text = (10 - time).description
+        time += 1
         
-        // deal with flash
-        handleFlash()
+        guard 10 - time == 0 else {return}
         
-        // capture photo
-        let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
-        stillImageOutput.capturePhoto(with: settings, delegate: self)
-        container.rightLabel.text = (container.savedImages.count + 1).description
+        // stop the timer
+        timer.invalidate()
+        timerIsActive = false 
+        time = 0
+        
+        takePhoto()
         
     }
     

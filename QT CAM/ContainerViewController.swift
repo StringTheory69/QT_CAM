@@ -29,6 +29,7 @@ class ContainerViewController: UIViewController {
             imagesFull = true
         }
     }
+    
     var imagesFull: Bool = false
     
     var volumeValue: Float = 0 {
@@ -40,6 +41,7 @@ class ContainerViewController: UIViewController {
             }
         }
     }
+    
     var volumeIncrease: Bool!
     
     var recController = RecController()
@@ -92,7 +94,8 @@ class ContainerViewController: UIViewController {
         previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3).isActive = true
         
         blackView = UIView()
-        blackView.alpha = 0.0
+        blackView.alpha = 1
+        blackView.isHidden = true
         blackView.backgroundColor = .black
         blackView.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(blackView, belowSubview: cameraImageView)
@@ -108,7 +111,8 @@ class ContainerViewController: UIViewController {
         
         leftLabel = UILabel()
         leftLabel.text = "REC"
-        leftLabel.backgroundColor = .white
+        leftLabel.textColor = .white
+        leftLabel.backgroundColor = .clear
         leftLabel.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(leftLabel, belowSubview: blackView)
 //        leftLabel.heightAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 0.39).isActive = true
@@ -119,26 +123,24 @@ class ContainerViewController: UIViewController {
         rightLabel = UILabel()
         rightLabel.text = "1"
         rightLabel.text = String(savedImages.count)
-        rightLabel.backgroundColor = .white
+        rightLabel.textColor = .white
+        rightLabel.backgroundColor = .clear
         rightLabel.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(rightLabel, belowSubview: blackView)
         //        leftLabel.heightAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 0.39).isActive = true
         rightLabel.trailingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: -20).isActive = true
-        
         rightLabel.topAnchor.constraint(equalTo: previewView.topAnchor, constant: 20).isActive = true
         
-        
         changeModeButton = UIButton()
-        changeModeButton.setTitle("SWITCH MODE", for: .normal)
-        changeModeButton.setTitleColor(.white, for: .normal)
-        changeModeButton.backgroundColor = .red
+//        changeModeButton.setTitle("SWITCH MODE", for: .normal)
+//        changeModeButton.setTitleColor(.white, for: .normal)
+        changeModeButton.backgroundColor = .clear
         changeModeButton.addTarget(self, action: #selector(changeMode), for: .touchUpInside)
         changeModeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(changeModeButton)
+        changeModeButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         changeModeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        changeModeButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        changeModeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100).isActive = true
-        
+        changeModeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         changeModeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         
     }
@@ -160,9 +162,8 @@ class ContainerViewController: UIViewController {
                 case .play: do {
                     
                     // if volume increase scroll right else if decrease scroll left
-
                     previewView.image = playController.changePhoto(volumeIncrease)
-                    
+                    playAnimation()
                     }
                 // timer
                 case .timer: do {
@@ -171,6 +172,10 @@ class ContainerViewController: UIViewController {
                     guard volumeIncrease == true else {return}
                     
                     guard savedImages.count < 30 else {return print("images full")}
+                    
+                    // timer is already going
+                    guard recController.timerIsActive == false else {return print("timer is active")}
+                    
                     recController.takePhotoWithTimer()
                     
                     }
@@ -186,8 +191,6 @@ class ContainerViewController: UIViewController {
                     
                     }
                 }
-                
-                
             }
         }
     }
@@ -198,6 +201,7 @@ class ContainerViewController: UIViewController {
         case .play: do {
             
             // change to timer mode
+            blackView.isHidden = true
             rightLabel.text = String(savedImages.count)
             leftLabel.text = "TIMER"
             recController.setupCamera()
@@ -217,20 +221,32 @@ class ContainerViewController: UIViewController {
         default: do {
             
             // change to play mode
-
+            if savedImages.count != 0 {
+                blackView.isHidden = false
+                playAnimation()
+            } 
+            playAnimation()
             recController.cleanup()
             savedImages = persistentStorage.fetchData()
             print("IMAGES", savedImages)
             leftLabel.text = "PLAY"
-            if savedImages.count >= 0 { rightLabel.text = "1" } else { rightLabel.text = "0" }
+            if savedImages.count == 0 { rightLabel.text = "No photos" } else { rightLabel.text = "1" }
             previewView.image = playController.setup(savedImages)
             currentMode = .play
             print("PLAY")
             }
         }
-        
     }
-
+        
+    func playAnimation() {
+        self.topConstraint.constant = 0
+        self.view.layoutIfNeeded()
+        topConstraint.constant = self.previewView.frame.height
+        UIView.animate(withDuration: 4, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+        
 }
 
 enum Mode {
