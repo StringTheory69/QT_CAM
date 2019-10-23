@@ -19,7 +19,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.8</string>
+	<string>2.1</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
@@ -28,6 +30,10 @@
 	<string>Our application needs permission to write photos...</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Save your photos</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Old School Adventures.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

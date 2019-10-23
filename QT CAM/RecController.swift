@@ -19,13 +19,9 @@ class RecController: NSObject, AVCapturePhotoCaptureDelegate {
     var camera: AVCaptureDevice!
     
     // UI
-    var previewView: UIView!
-    var cameraImageView: UIImageView!
-    var imageView: UIImageView!
-    var takePhotoButton: UIButton!
-    var savedImageView: UIImageView!
-    var flipButton: UIButton!
-    var flashButton: UIButton!
+//    var flipButton: UIButton!
+//    var flashButton: UIButton!
+    var currentImage: UIImage!
     
     // logic
     var backCamera: Bool = true
@@ -47,17 +43,17 @@ class RecController: NSObject, AVCapturePhotoCaptureDelegate {
 extension RecController {
     
     // toggle flash
-    @objc func flashButtonAction() {
-        if !flash {
-//            flashButton.setTitle("FLASH ON", for: .normal)
-            flashButton.setImage(#imageLiteral(resourceName: "noun_flash_552194"), for: .normal)
-            flash = true
-        } else {
-//            flashButton.setTitle("FLASH OFF", for: .normal)
-            flashButton.setImage(#imageLiteral(resourceName: "noun_flash off_552195"), for: .normal)
-            flash = false
-        }
-    }
+//    @objc func flashButtonAction() {
+//        if !flash {
+////            flashButton.setTitle("FLASH ON", for: .normal)
+//            flashButton.setImage(#imageLiteral(resourceName: "noun_flash_552194"), for: .normal)
+//            flash = true
+//        } else {
+////            flashButton.setTitle("FLASH OFF", for: .normal)
+//            flashButton.setImage(#imageLiteral(resourceName: "noun_flash off_552195"), for: .normal)
+//            flash = false
+//        }
+//    }
     
     // toggle camera direction
     @objc func flipCameraView() {
@@ -78,7 +74,7 @@ extension RecController {
         // capture photo
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         stillImageOutput.capturePhoto(with: settings, delegate: self)
-        container.rightLabel.text = (container.savedImages.count + 1).description
+//        container.rightLabel.text = (container.savedImages.count + 1).description
     }
     
     func takePhotoWithTimer() {
@@ -255,7 +251,7 @@ extension RecController {
         
         // save image
         guard let image = compressedImage as? UIImage else {return print("image not UIImage")}
-        container.persistentStorage.saveData(image)
+        container.saveImage(image)
         // initialize image save view
         
 //        let storyboard = UIStoryboard(name: "Main", bundle: nil)

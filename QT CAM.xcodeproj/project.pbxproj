@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F0311BA235FC1DE005AF618 /* SavedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0311B9235FC1DE005AF618 /* SavedImage.swift */; };
+		9F0311BC235FDE33005AF618 /* Old School Adventures.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F0311BB235FDE33005AF618 /* Old School Adventures.ttf */; };
 		9F071053234C4FDB009E8565 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071052234C4FDB009E8565 /* AppDelegate.swift */; };
 		9F071055234C4FDB009E8565 /* RecController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F071054234C4FDB009E8565 /* RecController.swift */; };
 		9F071058234C4FDB009E8565 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F071056234C4FDB009E8565 /* Main.storyboard */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F0311B9235FC1DE005AF618 /* SavedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedImage.swift; sourceTree = "<group>"; };
+		9F0311BB235FDE33005AF618 /* Old School Adventures.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Old School Adventures.ttf"; sourceTree = "<group>"; };
 		9F07104F234C4FDB009E8565 /* QT CAM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QT CAM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F071052234C4FDB009E8565 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F071054234C4FDB009E8565 /* RecController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecController.swift; sourceTree = "<group>"; };
@@ -117,7 +121,9 @@
 				9F071056234C4FDB009E8565 /* Main.storyboard */,
 				9F470756234C817300E02684 /* CustomViews.swift */,
 				9F15F2EA2353F22D00F3870E /* PersistentStorage.swift */,
+				9F0311B9235FC1DE005AF618 /* SavedImage.swift */,
 				9F15F2E72353EED600F3870E /* PersistingImage.xcdatamodeld */,
+				9F0311BB235FDE33005AF618 /* Old School Adventures.ttf */,
 				9F071059234C4FE0009E8565 /* Assets.xcassets */,
 				9F07105B234C4FE0009E8565 /* LaunchScreen.storyboard */,
 				9F07105E234C4FE0009E8565 /* Info.plist */,
@@ -248,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F07105D234C4FE0009E8565 /* LaunchScreen.storyboard in Resources */,
+				9F0311BC235FDE33005AF618 /* Old School Adventures.ttf in Resources */,
 				9F07105A234C4FE0009E8565 /* Assets.xcassets in Resources */,
 				9F071058234C4FDB009E8565 /* Main.storyboard in Resources */,
 			);
@@ -280,6 +287,7 @@
 				9F470755234C7AC300E02684 /* ImagePreviewViewController.swift in Sources */,
 				9F470757234C817300E02684 /* CustomViews.swift in Sources */,
 				9F071055234C4FDB009E8565 /* RecController.swift in Sources */,
+				9F0311BA235FC1DE005AF618 /* SavedImage.swift in Sources */,
 				9F071053234C4FDB009E8565 /* AppDelegate.swift in Sources */,
 				9F15F2EB2353F22D00F3870E /* PersistentStorage.swift in Sources */,
 			);

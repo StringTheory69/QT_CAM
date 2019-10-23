@@ -12,16 +12,18 @@ import MediaPlayer
 class PlayController: NSObject {
     
     var currentImage: Int!
-    var imagesArray: [UIImage]!
+    var imagesArray: [UIImage] = []
     
-    func setup(_ imagesArray: [UIImage]) -> UIImage {
-        
+    func setup(_ saved: [SavedImage]) -> UIImage {
+        imagesArray = []
         currentImage = 0
-        self.imagesArray = imagesArray
+        for s in saved {
+            self.imagesArray.append(s.image)
+        }
         print("COUNT", imagesArray.count)
         guard imagesArray.count > 0 else {return UIImage() }
 
-        let flippedImage = UIImage(cgImage: imagesArray[currentImage].cgImage!, scale: 1.0, orientation: .right)
+        let flippedImage = UIImage(cgImage: self.imagesArray[currentImage].cgImage!, scale: 1.0, orientation: .right)
         return flippedImage
     }
     
