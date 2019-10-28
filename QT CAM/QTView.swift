@@ -11,11 +11,21 @@ import MediaPlayer
 
 class QTView: UIView {
     
+    var changeModeBorderColor: CGColor = UIColor.clear.cgColor
+    var popUpBorderColor: CGColor = UIColor.clear.cgColor
+
     // UI
     var previewView: UIImageView = {
         let previewView = UIImageView()
         previewView.translatesAutoresizingMaskIntoConstraints = false
         return previewView
+    }()
+    
+    var tutorialView: UIImageView = {
+        let tutorialView = UIImageView()
+        tutorialView.isHidden = true
+        tutorialView.translatesAutoresizingMaskIntoConstraints = false
+        return tutorialView
     }()
     
     var cameraImageView: UIImageView = {
@@ -116,6 +126,8 @@ class QTView: UIView {
         return MPVolumeView(frame: CGRect(x: -CGFloat.greatestFiniteMagnitude, y: 0.0, width: 0.0, height: 0.0))
     }()
     
+    lazy var tutorialImages: [UIImage] = [#imageLiteral(resourceName: "TutorialSlide_1"),#imageLiteral(resourceName: "TutorialSlide_2"),#imageLiteral(resourceName: "TutorialSlide_3"),#imageLiteral(resourceName: "TutorialSlide_4"),#imageLiteral(resourceName: "TutorialSlide_5"),#imageLiteral(resourceName: "TutorialSlide_6"),#imageLiteral(resourceName: "TutorialSlide_7"),#imageLiteral(resourceName: "TutorialSlide_8")]
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -130,7 +142,6 @@ class QTView: UIView {
     fileprivate func setupViews() {
         
         backgroundColor = .black
-        
         addSubview(volumeView)
         insertSubview(previewView, belowSubview: cameraImageView)
         insertSubview(leftLabel, belowSubview: blackView)
@@ -138,11 +149,11 @@ class QTView: UIView {
         insertSubview(saveButton, belowSubview: blackView)
         insertSubview(deleteButton, belowSubview: blackView)
         insertSubview(blackView, belowSubview: cameraImageView)
+        insertSubview(tutorialView, belowSubview: cameraImageView)
         addSubview(cameraImageView)
         addSubview(changeModeButton)
         addSubview(popUpButton)
 
-        
         saveButton.setAttributedTitle(NSAttributedString(string: "Save", attributes: self.attributes), for: .normal)
         deleteButton.setAttributedTitle(NSAttributedString(string: "Delete", attributes: attributes), for: .normal)
         
@@ -161,6 +172,11 @@ class QTView: UIView {
             previewView.leadingAnchor.constraint(equalTo: cameraImageView.leadingAnchor, constant: frame.height*1.78*0.32),
             previewView.topAnchor.constraint(equalTo: cameraImageView.topAnchor, constant: frame.height*0.27),
             previewView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3),
+            
+            tutorialView.heightAnchor.constraint(equalTo: cameraImageView.heightAnchor, multiplier: 0.39),
+            tutorialView.leadingAnchor.constraint(equalTo: cameraImageView.leadingAnchor, constant: frame.height*1.78*0.32),
+            tutorialView.topAnchor.constraint(equalTo: cameraImageView.topAnchor, constant: frame.height*0.27),
+            tutorialView.widthAnchor.constraint(equalTo: previewView.heightAnchor, multiplier: 4/3),
             
             topConstraint,
             blackView.leadingAnchor.constraint(equalTo: previewView.leadingAnchor),
@@ -201,15 +217,15 @@ class QTView: UIView {
         super.layoutSubviews()
         print("WIDTH", cameraImageView.frame.width)
         changeButtonTrailingConstraint.constant = -cameraImageView.frame.width/25
-        changeModeButton.layer.borderWidth = 1
-        changeModeButton.layer.borderColor = UIColor.clear.cgColor
+        changeModeButton.layer.borderWidth = 2
+        changeModeButton.layer.borderColor = changeModeBorderColor
         changeModeButton.layer.cornerRadius = 10
         changeModeButton.layer.masksToBounds = true
         
         popUpButtonTopConstraint.constant = cameraImageView.frame.width*(4/50)
         popUpButtonTrailingConstraint.constant = -cameraImageView.frame.width*(29/100)
-        popUpButton.layer.borderWidth = 1
-        popUpButton.layer.borderColor = UIColor.clear.cgColor
+        popUpButton.layer.borderWidth = 2
+        popUpButton.layer.borderColor = popUpBorderColor
         popUpButton.layer.cornerRadius = 10
         popUpButton.layer.masksToBounds = true
     }
@@ -217,9 +233,10 @@ class QTView: UIView {
     func changeModeButtonHighlight(_ highlighted: Bool) {
         
         if highlighted {
-            changeModeButton.layer.borderColor = UIColor.yellow.cgColor
+            changeModeBorderColor = UIColor.yellow.cgColor
+            print("YELLOW")
         } else {
-            changeModeButton.layer.borderColor = UIColor.clear.cgColor
+            changeModeBorderColor = UIColor.clear.cgColor
         }
         
     }
@@ -227,9 +244,48 @@ class QTView: UIView {
     func popUpButtonButtonHighlight(_ highlighted: Bool) {
         
         if highlighted {
-            popUpButton.layer.borderColor = UIColor.yellow.cgColor
+            popUpBorderColor = UIColor.yellow.cgColor
+            print("YELLOW")
         } else {
-            popUpButton.layer.borderColor = UIColor.clear.cgColor
+            popUpBorderColor = UIColor.clear.cgColor
+        }
+    }
+    
+    func tutorialSlide(_ number: Int) {
+        
+        tutorialView.isHidden = false
+        
+        switch number {
+        case 1: do {
+            tutorialView.image = tutorialImages[number - 1]
+        }
+        case 2: do {
+            changeModeButtonHighlight(true)
+            tutorialView.image = tutorialImages[number - 1]
+        }
+        case 3: do {
+            tutorialView.image = tutorialImages[number - 1]
+        }
+        case 4: do {
+            tutorialView.image = tutorialImages[number - 1]
+        }
+        case 5: do {
+            tutorialView.image = tutorialImages[number - 1]
+        }
+        case 6: do {
+            tutorialView.image = tutorialImages[number - 1]
+        }
+        case 7: do {
+            tutorialView.image = tutorialImages[number - 1]
+        }
+        case 8: do {
+            changeModeButtonHighlight(false)
+            popUpButtonButtonHighlight(true)
+            tutorialView.image = tutorialImages[number - 1]
+        }
+        default:
+            popUpButtonButtonHighlight(false)
+            tutorialView.isHidden = true
         }
     }
     

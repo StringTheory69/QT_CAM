@@ -19,7 +19,6 @@
 		9F15F2EB2353F22D00F3870E /* PersistentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F15F2EA2353F22D00F3870E /* PersistentStorage.swift */; };
 		9F15F2ED2353FAA100F3870E /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F15F2EC2353FAA100F3870E /* ContainerViewController.swift */; };
 		9F4663AF23661AB700DD6243 /* QTView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4663AE23661AB700DD6243 /* QTView.swift */; };
-		9F470755234C7AC300E02684 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +57,6 @@
 		9F15F2EA2353F22D00F3870E /* PersistentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorage.swift; sourceTree = "<group>"; };
 		9F15F2EC2353FAA100F3870E /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		9F4663AE23661AB700DD6243 /* QTView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTView.swift; sourceTree = "<group>"; };
-		9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +111,6 @@
 				9F15F2EC2353FAA100F3870E /* ContainerViewController.swift */,
 				9F4663AE23661AB700DD6243 /* QTView.swift */,
 				9F071054234C4FDB009E8565 /* RecController.swift */,
-				9F470754234C7AC300E02684 /* ImagePreviewViewController.swift */,
 				9F0A027A234D405300AC0950 /* Extensions.swift */,
 				9F15F2EA2353F22D00F3870E /* PersistentStorage.swift */,
 				9F15F2E72353EED600F3870E /* PersistingImage.xcdatamodeld */,
@@ -286,7 +283,6 @@
 				9F4663AF23661AB700DD6243 /* QTView.swift in Sources */,
 				9F15F2ED2353FAA100F3870E /* ContainerViewController.swift in Sources */,
 				9F15F2E92353EED600F3870E /* PersistingImage.xcdatamodeld in Sources */,
-				9F470755234C7AC300E02684 /* ImagePreviewViewController.swift in Sources */,
 				9F071055234C4FDB009E8565 /* RecController.swift in Sources */,
 				9F071053234C4FDB009E8565 /* AppDelegate.swift in Sources */,
 				9F15F2EB2353F22D00F3870E /* PersistentStorage.swift in Sources */,

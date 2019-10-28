@@ -13,9 +13,6 @@ import NotificationCenter
 class ContainerViewController: UIViewController {
     
     // storage managment
-    
-    var currentImage = 0
-    
     let persistentStorage = PersistentStorage()
     
     var imagePaths: [String] = [] {
@@ -29,6 +26,10 @@ class ContainerViewController: UIViewController {
     var imagesFull: Bool = false
     
     var volumeIncrease: Bool!
+    
+    var currentImage = 0
+    
+    var currentTutorialSlide = 1
     
     var volumeValue: Float = 0 {
         willSet (newVal) {
@@ -60,8 +61,8 @@ class ContainerViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(qtView)
-        
-        tutorialMode()
+
+        firstTime()
     
         NotificationCenter.default.addObserver(self, selector: #selector(volumeChanged(notification:)), name: NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
 
@@ -86,6 +87,15 @@ class ContainerViewController: UIViewController {
         qtView.leftLabel.text = "REC"
         recController.setupCamera()
         
+    }
+    
+    func firstTime() {
+        if !UserDefaults.standard.bool(forKey: "firstTime") {
+            UserDefaults.standard.set(true, forKey: "firstTime")
+            tutorialBegin()
+        } else {
+            print("this is not the first time")
+        }
     }
     
 }
@@ -114,6 +124,26 @@ extension ContainerViewController {
                 guard animationActive == false else {return}
 
                 switch currentMode {
+                    
+                case .tutorial: do {
+                    
+                    if volumeIncrease {
+                        currentTutorialSlide += 1
+                    } else {
+                        currentTutorialSlide -= 1
+                    }
+                    
+                    guard currentTutorialSlide >= 1 else {
+                        currentTutorialSlide = 1
+                        return
+                    }
+                    
+                    qtView.tutorialSlide(currentTutorialSlide)
+                    print(currentTutorialSlide, qtView.tutorialImages.count)
+                    guard currentTutorialSlide > qtView.tutorialImages.count else {return}
+                    tutorialEnd()
+                }
+                    
                 case .play: do {
                     
                     // if volume increase scroll right else if decrease scroll left
@@ -139,10 +169,12 @@ extension ContainerViewController {
                 
                 // rec
                 default: do {
-                    animationActive = true
-                    qtView.blackView.isHidden = false
+                    print("REC VOLUME")
+
                     // if volume increase then take photo
                     guard volumeIncrease == true else {return}
+                    animationActive = true
+                    qtView.blackView.isHidden = false
                     // check if image array < 30
                     guard imagePaths.count <= 30 else {return print("images full")}
                     recController.takePhoto()
@@ -189,10 +221,15 @@ extension ContainerViewController {
     
 // play mode
     
-    func tutorialMode() {
+    func tutorialBegin() {
         currentMode = .tutorial
-        qtView.changeModeButtonHighlight(true)
-
+        qtView.tutorialSlide(1)
+//        qtView.changeModeButtonHighlight(true)
+    }
+    
+    func tutorialEnd() {
+        currentTutorialSlide = 1
+        currentMode = .rec
     }
     
     func changePhoto(advance: Bool) {
@@ -354,7 +391,7 @@ extension ContainerViewController {
     }
     
     func deleteAll() {
-        for path in imagePaths {
+        for _ in imagePaths {
             deletePhoto()
         }
     }
@@ -382,6 +419,11 @@ extension ContainerViewController {
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             // we got back an error!
+            let ac = UIAlertController(title: "Sorry About That", message: error.localizedDescription, preferredStyle: .alert)
+            
+            ac.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+
+            })
 
         } else {
 
@@ -427,7 +469,7 @@ extension ContainerViewController {
         })
         
         ac.addAction(UIAlertAction(title: "Tutorial", style: .default) { [unowned self] _ in
-            self.tutorialMode()
+            self.tutorialBegin()
         })
         
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
