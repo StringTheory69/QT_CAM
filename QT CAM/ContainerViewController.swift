@@ -94,6 +94,12 @@ class ContainerViewController: UIViewController {
 
 extension ContainerViewController {
     
+    func attemptImageToPreviewView() {
+        guard let image = persistentStorage.getImage(imagePaths[currentImage]) else {return errorAlert()}
+        guard let flip = flipImage(image) else {return errorAlert()}
+        qtView.previewView.image = flip
+    }
+    
     // volume controls
     @objc func volumeChanged(notification: NSNotification) {
         if let userInfo = notification.userInfo {
@@ -111,10 +117,10 @@ extension ContainerViewController {
                 case .play: do {
                     
                     // if volume increase scroll right else if decrease scroll left
-                    animationActive = true
-                    playAnimation()
-                    changePhoto(advance: volumeIncrease)
-                    qtView.previewView.image = flipImage(persistentStorage.getImage(imagePaths[currentImage])!)! 
+                        animationActive = true
+                        playAnimation()
+                        changePhoto(advance: volumeIncrease)
+                        attemptImageToPreviewView()
                     }
                 // timer
                 case .timer: do {
@@ -245,7 +251,7 @@ extension ContainerViewController {
         else {
             qtView.bottomLabelsIsHidden(false)
             qtView.rightLabel.text = (currentImage + 1).description
-            qtView.previewView.image = flipImage(persistentStorage.getImage(imagePaths[currentImage])!)!
+            attemptImageToPreviewView()
         }
         
         currentMode = .play
@@ -279,11 +285,18 @@ extension ContainerViewController {
             
             if success != false {
                 
-                imagePaths.append(filePath!)
+                imagePaths.append(filePath)
 
                 recController.cleanup()
                 
-                qtView.previewView.image = flipImage(image)!
+                if let img = flipImage(image) {
+                    qtView.previewView.image = img
+                }
+                else {
+                    print("ERROR FLIPPIN IN SAVE")
+                    qtView.previewView.image = UIImage()
+                }
+                
                 qtView.leftLabel.isHidden = true
                 qtView.rightLabel.isHidden = true
                 
@@ -314,6 +327,7 @@ extension ContainerViewController {
                 })
 
             } else {
+                errorAlert()
                 print("FAILURE TO SAVE")
             }
             
@@ -329,12 +343,20 @@ extension ContainerViewController {
     @objc func deletePhoto() {
         let toDeletePath = imagePaths[currentImage]
         imagePaths.remove(at: currentImage)
+        print("IMAGE PATHS", imagePaths)
         persistentStorage.deleteData(toDeletePath) { _ in
             changePhoto(advance: false)
+            print("CURRENT IMAGE DELETED", currentImage, imagePaths.count)
             guard imagePaths.count != 0 else {return playMode()}
-            qtView.previewView.image = flipImage(persistentStorage.getImage(imagePaths[currentImage])!)!
+            attemptImageToPreviewView()
         }
 
+    }
+    
+    func deleteAll() {
+        for path in imagePaths {
+            deletePhoto()
+        }
     }
     
 }
@@ -342,19 +364,24 @@ extension ContainerViewController {
 extension ContainerViewController {
     
     // save to album
-    @objc func savePhoto() {
-    UIImageWriteToSavedPhotosAlbum(flipImage(persistentStorage.getImage(imagePaths[currentImage])!)!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    @objc func savePhoto(_ photoPath: String) {
+        guard let image = persistentStorage.getImage(imagePaths[currentImage]) else {return errorAlert()}
+        guard let flip = flipImage(image) else {return errorAlert()}
+        UIImageWriteToSavedPhotosAlbum(flip, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
         
+    }
+    
+    func errorAlert() {
+        let ac = UIAlertController(title: "Sorry About That", message: "Something weird happened :( Please try again.", preferredStyle: .alert)
+        
+            ac.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+
+        })
     }
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             // we got back an error!
-            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
-            
-            ac.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-
-            })
 
         } else {
 
@@ -369,7 +396,9 @@ extension ContainerViewController {
     func saveAll() {
         
         for path in imagePaths {
-        UIImageWriteToSavedPhotosAlbum(flipImage(persistentStorage.getImage(path)!)!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+            guard let image = persistentStorage.getImage(path) else {return errorAlert()}
+            guard let flip = flipImage(image) else {return errorAlert()}
+            UIImageWriteToSavedPhotosAlbum(flip, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
         }
         
     }
@@ -391,6 +420,10 @@ extension ContainerViewController {
         
         ac.addAction(UIAlertAction(title: "Save All", style: .default) { [unowned self] _ in
             self.saveAll()
+        })
+        
+        ac.addAction(UIAlertAction(title: "Delete All", style: .default) { [unowned self] _ in
+                   self.deleteAll()
         })
         
         ac.addAction(UIAlertAction(title: "Tutorial", style: .default) { [unowned self] _ in
