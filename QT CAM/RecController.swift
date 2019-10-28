@@ -35,25 +35,12 @@ class RecController: NSObject, AVCapturePhotoCaptureDelegate {
     
     func cleanup() {
         self.captureSession.stopRunning()
-        container.previewView.layer.sublayers = nil
+        container.qtView.previewView.layer.sublayers = nil
     }
     
 }
 
 extension RecController {
-    
-    // toggle flash
-//    @objc func flashButtonAction() {
-//        if !flash {
-////            flashButton.setTitle("FLASH ON", for: .normal)
-//            flashButton.setImage(#imageLiteral(resourceName: "noun_flash_552194"), for: .normal)
-//            flash = true
-//        } else {
-////            flashButton.setTitle("FLASH OFF", for: .normal)
-//            flashButton.setImage(#imageLiteral(resourceName: "noun_flash off_552195"), for: .normal)
-//            flash = false
-//        }
-//    }
     
     // toggle camera direction
     @objc func flipCameraView() {
@@ -74,7 +61,6 @@ extension RecController {
         // capture photo
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         stillImageOutput.capturePhoto(with: settings, delegate: self)
-//        container.rightLabel.text = (container.savedImages.count + 1).description
     }
     
     func takePhotoWithTimer() {
@@ -86,7 +72,7 @@ extension RecController {
     @objc func timerAction() {
         
         print("time", time)
-        container.rightLabel.text = (10 - time).description
+        container.qtView.rightLabel.text = (10 - time).description
         time += 1
         
         guard 10 - time == 0 else {return}
@@ -180,7 +166,7 @@ extension RecController {
         
         videoPreviewLayer.videoGravity = .resizeAspect
         videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
-        container.previewView.layer.addSublayer(videoPreviewLayer)
+        container.qtView.previewView.layer.addSublayer(videoPreviewLayer)
         
         DispatchQueue.global(qos: .userInitiated).async { //[weak self] in
             
@@ -190,7 +176,7 @@ extension RecController {
         
         DispatchQueue.main.async {
             
-            self.videoPreviewLayer.frame = self.container.previewView.bounds
+            self.videoPreviewLayer.frame = self.container.qtView.previewView.bounds
         }
         
     }
@@ -213,7 +199,6 @@ extension RecController {
         // captured image size
         let imageSize = capturedImage?.size
         
-//        if let img = grainImage, let img2 = capturedImage {
         let rect = CGRect(x: 0, y: 0, width: imageSize!.width, height: imageSize!.height)
             let renderer = UIGraphicsImageRenderer(size: imageSize!)
             
@@ -224,22 +209,7 @@ extension RecController {
                 
                 grainImage.draw(in: rect, blendMode: .normal, alpha: 0.4)
                 capturedImage?.draw(in: rect, blendMode: .overlay, alpha: 1)
-            }
-//        }
-        
-//        // begin blend
-//        UIGraphicsBeginImageContextWithOptions(imageSize!, false, 0.0)
-//
-//        // grain image blend
-//        grainImage.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .normal, alpha: 1)
-//
-//        // captured image blend
-//        capturedImage!.draw(in: CGRect(origin: .zero, size: imageSize!), blendMode: .overlay, alpha: 1)
-//
-//        // end blend
-//        // processed image
-//        var processedImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
+        }
 
         result = result.resizeWithWidth(width: 480)!
         
@@ -251,33 +221,9 @@ extension RecController {
         
         // save image
         guard let image = compressedImage as? UIImage else {return print("image not UIImage")}
-        container.saveImage(image)
-        // initialize image save view
-        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let controller = storyboard.instantiateViewController(withIdentifier: "previewVC") as! ImagePreviewViewController
-        
-        // pass image to controller
-//        controller.backCamera = backCamera
-//        controller.image = compressedImage
-        
-        // present controller
-//        self.present(controller, animated: false, completion: nil)
+        container.savePhotoLocally(image)
     
     }
     
 }
 
-extension UIImage {
-    
-    func withSaturationAdjustment(byVal: CGFloat) -> UIImage {
-        guard let cgImage = self.cgImage else { return self }
-        guard let filter = CIFilter(name: "CIColorControls") else { return self }
-        filter.setValue(CIImage(cgImage: cgImage), forKey: kCIInputImageKey)
-        filter.setValue(byVal, forKey: kCIInputSaturationKey)
-        guard let result = filter.value(forKey: kCIOutputImageKey) as? CIImage else { return self }
-        guard let newCgImage = CIContext(options: nil).createCGImage(result, from: result.extent) else { return self }
-        return UIImage(cgImage: newCgImage, scale: UIScreen.main.scale, orientation: imageOrientation)
-    }
-    
-}
