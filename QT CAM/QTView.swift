@@ -202,23 +202,35 @@ class QTView: UIView {
         print("WIDTH", cameraImageView.frame.width)
         changeButtonTrailingConstraint.constant = -cameraImageView.frame.width/25
         changeModeButton.layer.borderWidth = 1
-        changeModeButton.layer.borderColor = UIColor.yellow.cgColor
+        changeModeButton.layer.borderColor = UIColor.clear.cgColor
         changeModeButton.layer.cornerRadius = 10
         changeModeButton.layer.masksToBounds = true
         
         popUpButtonTopConstraint.constant = cameraImageView.frame.width*(4/50)
         popUpButtonTrailingConstraint.constant = -cameraImageView.frame.width*(29/100)
         popUpButton.layer.borderWidth = 1
-        popUpButton.layer.borderColor = UIColor.yellow.cgColor
+        popUpButton.layer.borderColor = UIColor.clear.cgColor
         popUpButton.layer.cornerRadius = 10
         popUpButton.layer.masksToBounds = true
     }
     
-}
-
-extension UIView{
-     func blink() {
-        self.alpha = 0.2
-        UIView.animate(withDuration: 1, delay: 0.0, options: [.curveLinear, .repeat, .autoreverse], animations: {self.alpha = 1.0}, completion: nil)
-     }
+    func changeModeButtonHighlight(_ highlighted: Bool) {
+        
+        if highlighted {
+            changeModeButton.layer.borderColor = UIColor.yellow.cgColor
+        } else {
+            changeModeButton.layer.borderColor = UIColor.clear.cgColor
+        }
+        
+    }
+    
+    func popUpButtonButtonHighlight(_ highlighted: Bool) {
+        
+        if highlighted {
+            popUpButton.layer.borderColor = UIColor.yellow.cgColor
+        } else {
+            popUpButton.layer.borderColor = UIColor.clear.cgColor
+        }
+    }
+    
 }

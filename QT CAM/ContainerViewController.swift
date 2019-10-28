@@ -45,12 +45,6 @@ class ContainerViewController: UIViewController {
         recController.container = self
         return recController
     }()
-    
-    lazy var playController: PlayController = {
-        let playController = PlayController()
-        playController.container = self
-        return playController
-    }()
 
     // always begin on rec controller
     var currentMode: Mode = .rec
@@ -66,6 +60,8 @@ class ContainerViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(qtView)
+        
+        tutorialMode()
     
         NotificationCenter.default.addObserver(self, selector: #selector(volumeChanged(notification:)), name: NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
 
@@ -73,7 +69,7 @@ class ContainerViewController: UIViewController {
         qtView.deleteButton.addTarget(self, action: #selector(deletePhoto), for: .touchUpInside)
         qtView.changeModeButton.addTarget(self, action: #selector(changeMode), for: .touchUpInside)
         qtView.saveButton.addTarget(self, action: #selector(savePhoto), for: .touchUpInside)
-
+        qtView.popUpButton.addTarget(self, action: #selector(presentPopUpView), for: .touchUpInside)
         // data stuff
         persistentStorage.fetchPaths() { (paths, success) in
             if success == true {
@@ -117,7 +113,7 @@ extension ContainerViewController {
                     // if volume increase scroll right else if decrease scroll left
                     animationActive = true
                     playAnimation()
-                    changePhoto(volumeIncrease)
+                    changePhoto(advance: volumeIncrease)
                     qtView.previewView.image = flipImage(persistentStorage.getImage(imagePaths[currentImage])!)! 
                     }
                 // timer
@@ -187,7 +183,13 @@ extension ContainerViewController {
     
 // play mode
     
-    func changePhoto(_ advance: Bool) {
+    func tutorialMode() {
+        currentMode = .tutorial
+        qtView.changeModeButtonHighlight(true)
+
+    }
+    
+    func changePhoto(advance: Bool) {
 
         guard imagePaths.count > 0 else {return}
         if advance {
@@ -326,10 +328,10 @@ extension ContainerViewController {
     // delete from persistent
     @objc func deletePhoto() {
         let toDeletePath = imagePaths[currentImage]
-        qtView.blackView.isHidden = false
         imagePaths.remove(at: currentImage)
         persistentStorage.deleteData(toDeletePath) { _ in
-            changePhoto(false)
+            changePhoto(advance: false)
+            guard imagePaths.count != 0 else {return playMode()}
             qtView.previewView.image = flipImage(persistentStorage.getImage(imagePaths[currentImage])!)!
         }
 
@@ -362,10 +364,48 @@ extension ContainerViewController {
         }
     }
     
+    // save all to album
+    
+    func saveAll() {
+        
+        for path in imagePaths {
+        UIImageWriteToSavedPhotosAlbum(flipImage(persistentStorage.getImage(path)!)!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        }
+        
+    }
+    
+}
+
+// pop up button
+
+extension ContainerViewController {
+    
+    @objc func presentPopUpView() {
+        let ac = UIAlertController(title: "More info", message: nil, preferredStyle: .actionSheet)
+        
+        ac.addAction(UIAlertAction(title: "Find out more about Deaton", style: .default) { _ in
+            if let url = URL(string:"https://deatonchrisanthony.com") {
+                UIApplication.shared.open(url)
+            }
+        })
+        
+        ac.addAction(UIAlertAction(title: "Save All", style: .default) { [unowned self] _ in
+            self.saveAll()
+        })
+        
+        ac.addAction(UIAlertAction(title: "Tutorial", style: .default) { [unowned self] _ in
+            self.tutorialMode()
+        })
+        
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(ac, animated: true)
+    }
+    
 }
 
 enum Mode {
     case rec
     case play
     case timer
+    case tutorial
 }
