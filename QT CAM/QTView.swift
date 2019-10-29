@@ -238,7 +238,7 @@ class QTView: UIView {
         } else {
             changeModeBorderColor = UIColor.clear.cgColor
         }
-        
+        layoutSubviews()
     }
     
     func popUpButtonButtonHighlight(_ highlighted: Bool) {
@@ -249,6 +249,7 @@ class QTView: UIView {
         } else {
             popUpBorderColor = UIColor.clear.cgColor
         }
+        layoutSubviews()
     }
     
     func tutorialSlide(_ number: Int) {

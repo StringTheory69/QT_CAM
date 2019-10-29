@@ -25,14 +25,17 @@ class ContainerViewController: UIViewController {
     
     var imagesFull: Bool = false
     
+    // if first volume click is - volume : this doesn't work
     var volumeIncrease: Bool!
     
     var currentImage = 0
     
     var currentTutorialSlide = 1
+    var tutorialActive = false
     
     var volumeValue: Float = 0 {
         willSet (newVal) {
+            
             if newVal > volumeValue || newVal == 1 {
                 volumeIncrease = true
             } else {
@@ -110,11 +113,71 @@ extension ContainerViewController {
         qtView.previewView.image = flip
     }
     
+    func volumeActions() {
+    switch currentMode {
+            
+        case .tutorial: do {
+            
+            if volumeIncrease {
+                currentTutorialSlide += 1
+            } else {
+                currentTutorialSlide -= 1
+            }
+            print(currentTutorialSlide, qtView.tutorialImages.count)
+
+            guard currentTutorialSlide >= 1 else {
+                currentTutorialSlide = 1
+                return
+            }
+            
+            guard currentTutorialSlide > qtView.tutorialImages.count else {return qtView.tutorialSlide(currentTutorialSlide)}
+            tutorialEnd()
+        }
+            
+        case .play: do {
+            
+            // if volume increase scroll right else if decrease scroll left
+                animationActive = true
+                playAnimation()
+                changePhoto(advance: volumeIncrease)
+                attemptImageToPreviewView()
+            }
+        // timer
+        case .timer: do {
+            
+            // if volume increase then start timer and then take photo
+            guard volumeIncrease == true else {return}
+            
+            guard imagePaths.count <= 30 else {return print("images full")}
+            
+            // timer is already going
+            guard recController.timerIsActive == false else {return print("timer is active")}
+            
+            recController.takePhotoWithTimer()
+            
+            }
+        
+        // rec
+        default: do {
+            print("REC VOLUME")
+
+            // if volume increase then take photo
+            guard volumeIncrease == true else {return}
+            animationActive = true
+            qtView.blackView.isHidden = false
+            // check if image array < 30
+            guard imagePaths.count <= 30 else {return print("images full")}
+            recController.takePhoto()
+            
+            }
+        }
+    }
+    
     // volume controls
     @objc func volumeChanged(notification: NSNotification) {
         if let userInfo = notification.userInfo {
             
-            if let newVolumeValue = userInfo["AVSystemController_AudioVolumeNotificationParameter"]   as? Float {
+            if let newVolumeValue = userInfo["AVSystemController_AudioVolumeNotificationParameter"] as? Float {
                 volumeValue = newVolumeValue
             }
             
@@ -123,66 +186,10 @@ extension ContainerViewController {
                 guard volumeChangeType == "ExplicitVolumeChange" else {return}
                 guard animationActive == false else {return}
 
-                switch currentMode {
-                    
-                case .tutorial: do {
-                    
-                    if volumeIncrease {
-                        currentTutorialSlide += 1
-                    } else {
-                        currentTutorialSlide -= 1
-                    }
-                    
-                    guard currentTutorialSlide >= 1 else {
-                        currentTutorialSlide = 1
-                        return
-                    }
-                    
-                    qtView.tutorialSlide(currentTutorialSlide)
-                    print(currentTutorialSlide, qtView.tutorialImages.count)
-                    guard currentTutorialSlide > qtView.tutorialImages.count else {return}
-                    tutorialEnd()
-                }
-                    
-                case .play: do {
-                    
-                    // if volume increase scroll right else if decrease scroll left
-                        animationActive = true
-                        playAnimation()
-                        changePhoto(advance: volumeIncrease)
-                        attemptImageToPreviewView()
-                    }
-                // timer
-                case .timer: do {
-                    
-                    // if volume increase then start timer and then take photo
-                    guard volumeIncrease == true else {return}
-                    
-                    guard imagePaths.count <= 30 else {return print("images full")}
-                    
-                    // timer is already going
-                    guard recController.timerIsActive == false else {return print("timer is active")}
-                    
-                    recController.takePhotoWithTimer()
-                    
-                    }
-                
-                // rec
-                default: do {
-                    print("REC VOLUME")
-
-                    // if volume increase then take photo
-                    guard volumeIncrease == true else {return}
-                    animationActive = true
-                    qtView.blackView.isHidden = false
-                    // check if image array < 30
-                    guard imagePaths.count <= 30 else {return print("images full")}
-                    recController.takePhoto()
-                    
-                    }
-                }
-            }
+                volumeActions()
         }
+    }
+        
     }
     
     // mode control
@@ -211,6 +218,11 @@ extension ContainerViewController {
             print("REC")
             }
             
+        case .tutorial: do {
+            volumeIncrease = true
+            volumeActions()
+        }
+            
         // rec
         default: do {
             
@@ -222,13 +234,16 @@ extension ContainerViewController {
 // play mode
     
     func tutorialBegin() {
+        tutorialActive = true
         currentMode = .tutorial
         qtView.tutorialSlide(1)
 //        qtView.changeModeButtonHighlight(true)
     }
     
     func tutorialEnd() {
+        tutorialActive = false
         currentTutorialSlide = 1
+        qtView.tutorialSlide(9)
         currentMode = .rec
     }
     
@@ -458,21 +473,31 @@ extension ContainerViewController {
             if let url = URL(string:"https://deatonchrisanthony.com") {
                 UIApplication.shared.open(url)
             }
+            guard self.tutorialActive else {return }
+            self.tutorialEnd()
         })
         
         ac.addAction(UIAlertAction(title: "Save All", style: .default) { [unowned self] _ in
             self.saveAll()
+            guard self.tutorialActive else {return }
+            self.tutorialEnd()
         })
         
         ac.addAction(UIAlertAction(title: "Delete All", style: .default) { [unowned self] _ in
-                   self.deleteAll()
+            self.deleteAll()
+            guard self.tutorialActive else {return }
+            self.tutorialEnd()
         })
         
         ac.addAction(UIAlertAction(title: "Tutorial", style: .default) { [unowned self] _ in
+            guard !self.tutorialActive else {return }
             self.tutorialBegin()
         })
         
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel){ [unowned self] _ in
+            guard self.tutorialActive else {return }
+            self.tutorialEnd()
+        })
         present(ac, animated: true)
     }
     
